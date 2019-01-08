@@ -1,0 +1,22 @@
+icon ICON "icon.ico"
+#include "wx/msw/wx.rc"
+
+//#ifdef WIN64
+//1 24 "wx/msw/amd64.manifest"
+//#else
+//1 24 "wx/msw/wx.manifest"
+//#endif
+
+icodoctoradd RCDATA "icodoctoradd.png"
+icogroupadd RCDATA "icogroupadd.png"
+icogroupremove RCDATA "icogroupremove.png"
+icogroupedit RCDATA "icogroupedit.png"
+icoup RCDATA "icoup.png"
+icodown RCDATA "icodown.png"
+
+icoadd RCDATA "icoadd.png"
+icoremove RCDATA "icoremove.png"
+icoedit RCDATA "icoedit.png"
+
+icorefresh RCDATA "icorefresh.png"
+icoexit RCDATA "icoexit.png"

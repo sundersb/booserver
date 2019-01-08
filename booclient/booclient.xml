@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<setup>
+  <server>localhost</server>
+  <database>booserver</database>
+  <user>booserver</user>
+  <locale>158</locale>
+</setup>

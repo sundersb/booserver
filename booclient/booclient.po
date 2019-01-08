@@ -1,0 +1,330 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: booclient\n"
+"POT-Creation-Date: 2019-01-05 17:09+1000\n"
+"PO-Revision-Date: 2019-01-05 17:09+1000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-SearchPath-0: booclient.cpp\n"
+"X-Poedit-SearchPath-1: chart.cpp\n"
+"X-Poedit-SearchPath-2: connection.cpp\n"
+"X-Poedit-SearchPath-3: date.cpp\n"
+"X-Poedit-SearchPath-4: dlg_login.cpp\n"
+"X-Poedit-SearchPath-5: doctor.cpp\n"
+"X-Poedit-SearchPath-6: gui.cpp\n"
+"X-Poedit-SearchPath-7: main.cpp\n"
+"X-Poedit-SearchPath-8: profile.cpp\n"
+"X-Poedit-SearchPath-9: repository.cpp\n"
+"X-Poedit-SearchPath-10: rule.cpp\n"
+"X-Poedit-SearchPath-11: dlg_login.h\n"
+"X-Poedit-SearchPath-12: gui.h\n"
+
+#: booclient.cpp:51
+msgid "Invalid login data or the database is offline!"
+msgstr "Нет подключения к базе либо неверные учетные данные!"
+
+#: booclient.cpp:51
+msgid "Error"
+msgstr "Ошибка"
+
+#: dlg_login.cpp:18
+msgid "User"
+msgstr "Пользователь"
+
+#: dlg_login.cpp:25
+msgid "Password"
+msgstr "Пароль"
+
+#: dlg_login.cpp:36
+msgid "OK"
+msgstr "ОК"
+
+#: dlg_login.cpp:40
+msgid "Cancel"
+msgstr "Отмена"
+
+#: dlg_login.cpp:81
+msgid "You should specify username"
+msgstr "Пожалуйста, укажите имя пользователя"
+
+#: dlg_login.cpp:81
+msgid "No User"
+msgstr "Не указан пользователь"
+
+#: dlg_login.cpp:85
+msgid "You should specify password"
+msgstr "Пожалуйста, введите пароль"
+
+#: dlg_login.cpp:85
+msgid "Password Empty"
+msgstr "Пустой пароль"
+
+#: gui.cpp:21
+msgid "E&xit"
+msgstr "В&ыход"
+
+#: gui.cpp:29
+msgid "&File"
+msgstr "&Файл"
+
+#: gui.cpp:33 gui.cpp:95
+msgid "Add department..."
+msgstr "Новое отделение..."
+
+#: gui.cpp:33 gui.cpp:95 gui.cpp:155
+msgid "Add department"
+msgstr "Добавить отделение"
+
+#: gui.cpp:42 gui.cpp:97 gui.cpp:162
+msgid "Remove department"
+msgstr "Удалить отделение"
+
+#: gui.cpp:51 gui.cpp:99
+msgid "Rename department..."
+msgstr "Изменить отделение..."
+
+#: gui.cpp:51 gui.cpp:99 gui.cpp:169
+msgid "Rename department"
+msgstr "Переименовать отделение"
+
+#: gui.cpp:62 gui.cpp:103
+msgid "Add doctor..."
+msgstr "Новый врач..."
+
+#: gui.cpp:62 gui.cpp:103 gui.cpp:179
+msgid "Add doctor"
+msgstr "Добавить врача"
+
+#: gui.cpp:73 gui.cpp:107
+msgid "Add rule..."
+msgstr "Новое правило..."
+
+#: gui.cpp:73 gui.cpp:107 gui.cpp:217 gui.cpp:218
+msgid "Add rule"
+msgstr "Добавить правило"
+
+#: gui.cpp:82 gui.cpp:109 gui.cpp:225 gui.cpp:226
+msgid "Remove rule"
+msgstr "Удалить правило"
+
+#: gui.cpp:90
+msgid "Tools"
+msgstr "Инструменты"
+
+#: gui.cpp:113
+msgid "Exit"
+msgstr "Выход"
+
+#: gui.cpp:113
+msgid "Exit the application"
+msgstr "Выйти из приложения"
+
+#: gui.cpp:134
+msgid "Only active"
+msgstr "Только активные"
+
+#: gui.cpp:136
+msgid "Hide removed profiles and doctors"
+msgstr "Не показывать удаленные отделения и врачей"
+
+#: gui.cpp:236
+msgid "Move selected rule up"
+msgstr "Переместить правило вверх"
+
+#: gui.cpp:243
+msgid "Move selected rule down"
+msgstr "Переместить правило вниз"
+
+#: gui.cpp:251 gui.cpp:264 gui.cpp:360
+msgid "Name"
+msgstr "Имя"
+
+#: gui.cpp:252 gui.cpp:272 gui.cpp:346
+msgid "Title"
+msgstr "Заголовок"
+
+#: gui.cpp:253
+msgid "Period"
+msgstr "Период"
+
+#: gui.cpp:280
+msgid "From"
+msgstr "С"
+
+#: gui.cpp:286
+msgid "Till"
+msgstr "По"
+
+#: gui.cpp:292
+msgid "Parity"
+msgstr "Четность"
+
+#: gui.cpp:296 gui.cpp:307 gui.cpp:318
+msgid "None"
+msgstr "Нет"
+
+#: gui.cpp:296
+msgid "Odd"
+msgstr "Нечетные"
+
+#: gui.cpp:296
+msgid "Even"
+msgstr "Четные"
+
+#: gui.cpp:303
+msgid "Weekday"
+msgstr "День недели"
+
+#: gui.cpp:307
+msgid "Monday"
+msgstr "Понедельник"
+
+#: gui.cpp:307
+msgid "Tuesday"
+msgstr "Вторник"
+
+#: gui.cpp:307
+msgid "Wednesday"
+msgstr "Среда"
+
+#: gui.cpp:307
+msgid "Thursday"
+msgstr "Четверг"
+
+#: gui.cpp:307
+msgid "Friday"
+msgstr "Пятница"
+
+#: gui.cpp:307
+msgid "Saturday"
+msgstr "Суббота"
+
+#: gui.cpp:307
+msgid "Sunday"
+msgstr "Воскресенье"
+
+#: gui.cpp:314
+msgid "of week"
+msgstr "неделя"
+
+#: gui.cpp:318
+msgid "First"
+msgstr "Первая"
+
+#: gui.cpp:318
+msgid "Second"
+msgstr "Вторая"
+
+#: gui.cpp:318
+msgid "Third"
+msgstr "Третья"
+
+#: gui.cpp:318
+msgid "Fourth"
+msgstr "Четвертая"
+
+#: gui.cpp:338
+msgid "Rules"
+msgstr "Правила"
+
+#: gui.cpp:353
+msgid "Study"
+msgstr "Кабинет"
+
+#: gui.cpp:367
+msgid "Position"
+msgstr "Должность"
+
+#: gui.cpp:374
+msgid "Institute"
+msgstr "Институт"
+
+#: gui.cpp:381
+msgid "Certificate"
+msgstr "Сертификат"
+
+#: gui.cpp:388
+msgid "Category"
+msgstr "Категория"
+
+#: gui.cpp:395
+msgid "Active"
+msgstr "Активен"
+
+#: gui.cpp:402
+msgid "Doctor"
+msgstr "Врач"
+
+#: main.cpp:101
+msgid "Add Profile"
+msgstr "Новое отделение"
+
+#: main.cpp:102
+msgid "Profile title"
+msgstr "Название отделения"
+
+#: main.cpp:134
+msgid "Do you really wish to remove profile "
+msgstr "Вы действительно желаете удалить отделение "
+
+#: main.cpp:135
+msgid "Remove Profile"
+msgstr "Удалить отделение"
+
+#: main.cpp:138
+msgid "Do you wish to restore profile "
+msgstr "Восстановить отделение "
+
+#: main.cpp:139
+msgid "Restore Profile"
+msgstr "Восстановить отделение"
+
+#: main.cpp:163
+msgid "New name"
+msgstr "Новое имя"
+
+#: main.cpp:164
+msgid "Rename Profile"
+msgstr "Переименовать отделение"
+
+#: main.cpp:180
+msgid "Doctor title"
+msgstr "Имя врача"
+
+#: main.cpp:181
+msgid "Add Doctor"
+msgstr "Добавить врача"
+
+#: main.cpp:207
+msgid "Rule name"
+msgstr "Имя правила"
+
+#: main.cpp:208
+msgid "Add Rule"
+msgstr "Добавить правило"
+
+#: main.cpp:245
+msgid "Do you really wish to remove rule "
+msgstr "Удалить правило "
+
+#: main.cpp:246
+msgid "Remove Rule"
+msgstr "Удалить правило"
+
+#: dlg_login.h:39
+msgid "Log In"
+msgstr "Вход"
+
+#: gui.h:137
+msgid "Booserver Client"
+msgstr "Booserver: клиент"
