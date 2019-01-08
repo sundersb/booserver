@@ -1,0 +1,9 @@
+*~
+.codelite/
+Arch/
+bin/
+lib/
+Debug/
+Release/
+*.mo
+*.bak
