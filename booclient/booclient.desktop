@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Booclient
+GenericName=Booclient
+Comment=Doctors' timetable manager
+Comment[ru]=Управление расписанием врачей
+Exec=/usr/local/bin/booclient
+Icon=booclient
+Terminal=false
+Type=Application
+Categories=Office;

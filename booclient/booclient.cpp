@@ -61,6 +61,7 @@ MainApp::~MainApp() {
 void MainApp::selectLanguage(int code) {
   delete locale;
   locale = new wxLocale(code);
+  // TODO: Use /usr/local/share/booclient as XML location
   locale->AddCatalogLookupPathPrefix(getBaseDirectory());
   locale->AddCatalog(wxT("booclient"));
 }
