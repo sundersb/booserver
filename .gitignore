@@ -8,6 +8,7 @@ Release/
 *.mo
 *.bak
 *.mk
+[Mm]akefile
 booclient.txt
 booserver.txt
 testimages.txt
