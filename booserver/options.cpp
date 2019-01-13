@@ -81,7 +81,7 @@ void setColor(PMap &pmap, const std::string &value) {
 void setValue(std::map<std::string, PMap> &mpx, const std::string &key, const std::string &value) {
   std::map<std::string, PMap>::iterator it = mpx.find(key);
   if (it == mpx.end()) return;
-  
+
   PMap &pmap = it->second;
   switch (pmap.dtype) {
     case TYPE_INT:
@@ -99,7 +99,7 @@ void setValue(std::map<std::string, PMap> &mpx, const std::string &key, const st
 bool Options::load(const std::string &fileName) {
   std::ifstream file(fileName.c_str(), std::ifstream::in | std::ifstream::binary);
   if (!file.good()) return false;
-  
+
   std::map<std::string, PMap> mpx;
   mpx["interface"] = { &ip, TYPE_STRING };
   mpx["width"] = { &width, TYPE_INT };
@@ -125,15 +125,15 @@ bool Options::load(const std::string &fileName) {
     // TODO: cleanup?
     size_t from = line.find_first_not_of(' ');
     if (from == std::string::npos || line[from] == '#') continue;
-    
+
     size_t till = line.find_last_not_of(' ');
-    
+
     std::string::const_iterator begin = line.begin() + from;
-    std::string::const_iterator end = till == std::string::npos ? line.end() : line.begin() + till;
-    
+    std::string::const_iterator end = till == std::string::npos ? line.end() : line.begin() + till + 1;
+
     std::string::const_iterator pos = std::find(begin, end, '=');
     if (pos == end) continue;
-        
+
     std::string key (begin, pos);
     std::string value (pos + 1, end);
     setValue(mpx, key, value);
