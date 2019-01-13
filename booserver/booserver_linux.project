@@ -67,9 +67,7 @@
         <IncludePath Value="/usr/include/glib-2.0"/>
         <IncludePath Value="/usr/lib/x86_64-linux-gnu/glib-2.0/include"/>
         <IncludePath Value="/usr/include/freetype2"/>
-        <IncludePath Value="/usr/include/libpng12"/>
         <IncludePath Value="/usr/include/mysql"/>
-        <IncludePath Value="/usr/include/mysql++"/>
       </Compiler>
       <Linker Options="">
         <LibraryPath Value="."/>
@@ -79,9 +77,7 @@
         <Library Value="gstrtspserver-1.0"/>
         <Library Value="glib-2.0"/>
         <Library Value="gobject-2.0"/>
-        <Library Value="png12"/>
         <Library Value="freetype"/>
-        <Library Value="z"/>
         <Library Value="mysqlclient"/>
       </Linker>
       <ResourceCompiler Options=""/>
