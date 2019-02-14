@@ -15,7 +15,7 @@ const int HEADER_LINES = 3;
 
 const int VERSION_MAJOR = 1;
 const int VERSION_MINOR = 0;
-const int VERSION_RELEASE = 2;
+const int VERSION_RELEASE = 3;
 
 int main(int argc, char **argv) {
   std::cout << "Booserver v."

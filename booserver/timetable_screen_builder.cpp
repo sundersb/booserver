@@ -3,23 +3,11 @@
 #include <sstream>
 #include <assert.h>
 
-//const std::string DOCTOR = "\u0412\u0420\u0410\u0427";
-//const std::string STUDY = "\u041a\u0410\u0411";
-//const std::string NOT_ACCESSIBLE = "\u043d\u0435\u0442 \u043f\u0440\u0438\u0435\u043c\u0430";
-//
-//const std::string MONDAY = "\u041f\u041d";
-//const std::string TUESDAY = "\u0412\u0422";
-//const std::string WEDNESDAY = "\u0421\u0420";
-//const std::string THURSDAY = "\u0427\u0422";
-//const std::string FRYDAY = "\u041f\u0422";
-//const std::string SATURDAY = "\u0421\u0411";
-//const std::string SUNDAY = "\u0412\u0421";
-
 TimetableScreenBuilder::TimetableScreenBuilder(const Options &options):
   canvas(options.getWidth(), options.getHeight()),
   line_height(options.getHeight() / options.getLines()),
   title_width(options.getWidth() / 5),
-  study_width(options.getWidth() / 19),
+  study_width(options.getWidth() / 14),
   day_width((options.getWidth() - title_width - study_width) / 7),
   testing(options.isTesting()),
   title_face(options.getTitleFace()),

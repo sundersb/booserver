@@ -13,17 +13,17 @@ const int DEFAULT_PAGE_DURATION = 30;
 
 const std::string DEFAULT_FONT_FILENAME = "SourceSerifPro-Regular.otf";
 
-const std::string DEFAULT_TITLE_NAME = "\u0412\u0420\u0410\u0427";
-const std::string DEFAULT_TITLE_STUDY = "\u041a\u0410\u0411";
-const std::string DEFAULT_TITLE_NOT_ACCESSIBLE = "\u043d\u0435\u0442 \u043f\u0440\u0438\u0435\u043c\u0430";
-const std::string DEFAULT_TITLE_MONDAY = "\u041f\u041d";
-const std::string DEFAULT_TITLE_TUESDAY = "\u0412\u0422";
-const std::string DEFAULT_TITLE_WEDNESDAY = "\u0421\u0420";
-const std::string DEFAULT_TITLE_THURSDAY = "\u0427\u0422";
-const std::string DEFAULT_TITLE_FRYDAY = "\u041f\u0422";
-const std::string DEFAULT_TITLE_SATURDAY = "\u0421\u0411";
-const std::string DEFAULT_TITLE_SUNDAY = "\u0412\u0421";
-const std::string DEFAULT_TITLE_TESTING = "\u041e\u0411\u0420\u0410\u0417\u0415\u0426";
+const std::string DEFAULT_TITLE_NAME = "NAME";
+const std::string DEFAULT_TITLE_STUDY = "ROOM";
+const std::string DEFAULT_TITLE_NOT_ACCESSIBLE = "no reception";
+const std::string DEFAULT_TITLE_MONDAY = "MON";
+const std::string DEFAULT_TITLE_TUESDAY = "TUE";
+const std::string DEFAULT_TITLE_WEDNESDAY = "WED";
+const std::string DEFAULT_TITLE_THURSDAY = "THU";
+const std::string DEFAULT_TITLE_FRYDAY = "FRY";
+const std::string DEFAULT_TITLE_SATURDAY = "SAT";
+const std::string DEFAULT_TITLE_SUNDAY = "SUN";
+const std::string DEFAULT_TITLE_TESTING = "TESTING";
 
 const image::RGB COLOR_TITLE  = { 0x49, 0xba, 0x5a };
 const image::RGB COLOR_WHITE  = { 0xff, 0xff, 0xff };
@@ -31,7 +31,7 @@ const image::RGB COLOR_ORANGE = { 0xf3, 0x8e, 0x42 };
 const image::RGB COLOR_PINK   = { 0xfd, 0xe3, 0xf8 };
 const image::RGB COLOR_BLACK  = { 0x00, 0x00, 0x00 };
 const image::RGB COLOR_GOLD   = { 0xff, 0xd7, 0x00 };
-const image::RGB COLOR_ATTENTION   = { 0xff, 0x30, 0x30 };
+const image::RGB COLOR_ATTENTION   = { 0xff, 0x10, 0x10 };
 
 const std::string IP = "127.0.0.1";
 
@@ -132,11 +132,37 @@ void setValue(std::map<std::string, PMap> &mpx, const std::string &key, const st
   }
 }
 
-bool Options::load(const std::string &fileName) {
+bool load_file(const std::string &fileName, std::map<std::string, PMap> &mpx) {
   std::ifstream file(fileName.c_str(), std::ifstream::in | std::ifstream::binary);
   if (!file.good()) return false;
 
+  std::string line;
+  while (std::getline(file, line)) {
+    // TODO: cleanup?
+    size_t from = line.find_first_not_of(' ');
+    if (from == std::string::npos || line[from] == '#') continue;
+
+    size_t till = line.find_last_not_of(' ');
+
+    std::string::const_iterator begin = line.begin() + from;
+    std::string::const_iterator end = till == std::string::npos ? line.end() : line.begin() + till + 1;
+
+    std::string::const_iterator pos = std::find(begin, end, '=');
+    if (pos == end) continue;
+
+    std::string key (begin, pos);
+    std::string value (pos + 1, end);
+    setValue(mpx, key, value);
+  }
+  
+  return true;
+}
+
+bool Options::load(const std::string &fileName) {
+  std::string color_file;
+
   std::map<std::string, PMap> mpx;
+  
   mpx["interface"] = { &ip, TYPE_STRING };
   mpx["width"] = { &width, TYPE_INT };
   mpx["height"] = { &height, TYPE_INT };
@@ -167,25 +193,12 @@ bool Options::load(const std::string &fileName) {
   mpx["color_line_even"] = { &line_even, TYPE_COLOR };
   mpx["color_line_face"] = { &line_face, TYPE_COLOR };
   mpx["color_counter_face"] = { &counter_face, TYPE_COLOR };
+  
+  mpx["color_file"] = { &color_file, TYPE_STRING };
 
-  std::string line;
-  while (std::getline(file, line)) {
-    // TODO: cleanup?
-    size_t from = line.find_first_not_of(' ');
-    if (from == std::string::npos || line[from] == '#') continue;
-
-    size_t till = line.find_last_not_of(' ');
-
-    std::string::const_iterator begin = line.begin() + from;
-    std::string::const_iterator end = till == std::string::npos ? line.end() : line.begin() + till + 1;
-
-    std::string::const_iterator pos = std::find(begin, end, '=');
-    if (pos == end) continue;
-
-    std::string key (begin, pos);
-    std::string value (pos + 1, end);
-    setValue(mpx, key, value);
-  }
+  if (!load_file(fileName, mpx)) return false;
+  
+  if (!color_file.empty() && !load_file(color_file, mpx)) return false;
   
   if (testing) counter_face = COLOR_ATTENTION;
   
