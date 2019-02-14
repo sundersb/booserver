@@ -3,17 +3,17 @@
 #include <sstream>
 #include <assert.h>
 
-const std::string DOCTOR = "\u0412\u0420\u0410\u0427";
-const std::string STUDY = "\u041a\u0410\u0411";
-const std::string NOT_ACCESSIBLE = "\u043d\u0435\u0442 \u043f\u0440\u0438\u0435\u043c\u0430";
-
-const std::string MONDAY = "\u041f\u041d";
-const std::string TUESDAY = "\u0412\u0422";
-const std::string WEDNESDAY = "\u0421\u0420";
-const std::string THURSDAY = "\u0427\u0422";
-const std::string FRYDAY = "\u041f\u0422";
-const std::string SATURDAY = "\u0421\u0411";
-const std::string SUNDAY = "\u0412\u0421";
+//const std::string DOCTOR = "\u0412\u0420\u0410\u0427";
+//const std::string STUDY = "\u041a\u0410\u0411";
+//const std::string NOT_ACCESSIBLE = "\u043d\u0435\u0442 \u043f\u0440\u0438\u0435\u043c\u0430";
+//
+//const std::string MONDAY = "\u041f\u041d";
+//const std::string TUESDAY = "\u0412\u0422";
+//const std::string WEDNESDAY = "\u0421\u0420";
+//const std::string THURSDAY = "\u0427\u0422";
+//const std::string FRYDAY = "\u041f\u0422";
+//const std::string SATURDAY = "\u0421\u0411";
+//const std::string SUNDAY = "\u0412\u0421";
 
 TimetableScreenBuilder::TimetableScreenBuilder(const Options &options):
   canvas(options.getWidth(), options.getHeight()),
@@ -21,18 +21,34 @@ TimetableScreenBuilder::TimetableScreenBuilder(const Options &options):
   title_width(options.getWidth() / 5),
   study_width(options.getWidth() / 19),
   day_width((options.getWidth() - title_width - study_width) / 7),
+  testing(options.isTesting()),
   title_face(options.getTitleFace()),
   header_back(options.getHeaderBack()),
   header_face(options.getHeaderFace()),
   line_odd(options.getLineOdd()),
   line_even(options.getLineEven()),
   line_face(options.getLineFace()),
-  counter_face(options.getCounterFace())
+  counter_face(options.getCounterFace()),
+  font_file(options.getFontFile()),
+  title_name(options.getTitleName()),
+  title_study(options.getTitleStudy()),
+  title_no_time(options.getTitleNoTime()),
+  title_monday(options.getTitleMonday()),
+  title_tuesday(options.getTitileTuesday()),
+  title_wednesday(options.getTitleWednesday()),
+  title_thursday(options.getTitleThursday()),
+  title_fryday(options.getTitleFryday()),
+  title_saturday(options.getTitleSaturday()),
+  title_sunday(options.getTitleSunday()),
+  title_testing(options.getTitleTesting())
 {
+}
+
+bool TimetableScreenBuilder::init(void) {
   int fsize = line_height;
-  font_title.init(options.getFontFile(), fsize, 72);
-  font_caption.init(options.getFontFile(), fsize * 3 / 5, 72);
-  font_text.init(options.getFontFile(), fsize * 8 / 19, 72);
+  return font_title.init(font_file, fsize, 72)
+    && font_caption.init(font_file, fsize * 3 / 5, 72)
+    && font_text.init(font_file, fsize * 8 / 19, 72);
 }
 
 TimetableScreenBuilder::~TimetableScreenBuilder() {}
@@ -109,40 +125,40 @@ void TimetableScreenBuilder::build(const Profiles &ps, int page, int pageCount) 
     rect.y1 = y + line_height * 3 - 1;
     rect.x0 = 3;
     rect.x1 = title_width - 1;
-    canvas.textOut(DOCTOR, font_caption, header_face, rect, true);
+    canvas.textOut(title_name, font_caption, header_face, rect, true);
 
     //   Study
     rect.x0 = title_width + 1;
     rect.x1 = title_width + study_width - 1;
-    canvas.textOut(STUDY, font_caption, header_face, rect, true);
+    canvas.textOut(title_study, font_caption, header_face, rect, true);
 
     rect.x0 = title_width + study_width;
     rect.x1 = rect.x0 + day_width;
-    canvas.textOut(MONDAY, font_caption, header_face, rect, true);
+    canvas.textOut(title_monday, font_caption, header_face, rect, true);
 
     rect.x0 += day_width;
     rect.x1 += day_width;
-    canvas.textOut(TUESDAY, font_caption, header_face, rect, true);
+    canvas.textOut(title_tuesday, font_caption, header_face, rect, true);
 
     rect.x0 += day_width;
     rect.x1 += day_width;
-    canvas.textOut(WEDNESDAY, font_caption, header_face, rect, true);
+    canvas.textOut(title_wednesday, font_caption, header_face, rect, true);
 
     rect.x0 += day_width;
     rect.x1 += day_width;
-    canvas.textOut(THURSDAY, font_caption, header_face, rect, true);
+    canvas.textOut(title_thursday, font_caption, header_face, rect, true);
 
     rect.x0 += day_width;
     rect.x1 += day_width;
-    canvas.textOut(FRYDAY, font_caption, header_face, rect, true);
+    canvas.textOut(title_fryday, font_caption, header_face, rect, true);
 
     rect.x0 += day_width;
     rect.x1 += day_width;
-    canvas.textOut(SATURDAY, font_caption, header_face, rect, true);
+    canvas.textOut(title_saturday, font_caption, header_face, rect, true);
 
     rect.x0 += day_width;
     rect.x1 += day_width;
-    canvas.textOut(SUNDAY, font_caption, header_face, rect, true);
+    canvas.textOut(title_sunday, font_caption, header_face, rect, true);
 
     // Doctors
     rect.y0 = y + line_height * 3 + 1;
@@ -161,7 +177,7 @@ void TimetableScreenBuilder::build(const Profiles &ps, int page, int pageCount) 
       for (int i = 0; i < 7; ++i) {
         const timetable::ReceiptTime &r = doc[(timetable::Weekdays)i];
         if (r.blocked) {
-          canvas.textOut(NOT_ACCESSIBLE, font_text, line_face, rect, true);
+          canvas.textOut(title_no_time, font_text, line_face, rect, true);
         } else {
           canvas.textOut(r.title, font_text, line_face, rect, true);
         }
@@ -176,7 +192,11 @@ void TimetableScreenBuilder::build(const Profiles &ps, int page, int pageCount) 
   }
   
   std::ostringstream pager;
-  pager << page << " / " << pageCount;
+  if (testing) {
+    pager << "***    " << title_testing << "    ***    " << page << " / " << pageCount << "    ***    " << title_testing << "    ***";
+  } else {
+    pager << page << " / " << pageCount;
+  }
   
   image::Rect rect = { 0,
     canvas.getHeight() - line_height,

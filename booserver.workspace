@@ -6,7 +6,7 @@
   <Project Name="testoptions" Path="booserver/testoptions.project" Active="No"/>
   <Project Name="booclient" Path="booclient/booclient.project" Active="No"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="no">
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
       <Project Name="booserver" ConfigName="Debug"/>
       <Project Name="testimages" ConfigName="Debug"/>
@@ -14,7 +14,7 @@
       <Project Name="testoptions" ConfigName="Debug"/>
       <Project Name="booclient" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Release" Selected="yes">
+    <WorkspaceConfiguration Name="Release" Selected="no">
       <Environment/>
       <Project Name="booserver" ConfigName="Release"/>
       <Project Name="testimages" ConfigName="Release"/>

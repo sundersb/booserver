@@ -15,7 +15,7 @@ const int HEADER_LINES = 3;
 
 const int VERSION_MAJOR = 1;
 const int VERSION_MINOR = 0;
-const int VERSION_RELEASE = 1;
+const int VERSION_RELEASE = 2;
 
 int main(int argc, char **argv) {
   std::cout << "Booserver v."
@@ -33,6 +33,11 @@ int main(int argc, char **argv) {
     options.getSqlPassword());
 
   image::Builder imageBuilder(options, provider);
+  if (!imageBuilder.init()) {
+    std::cout << "Error initializing!" << std::endl;
+    return 1;
+  }
+  
   MulticastStreamer streamer(&imageBuilder, options.getIP().c_str());
 
   if (streamer.init(argc, argv)) {

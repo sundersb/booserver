@@ -29,6 +29,8 @@ namespace image {
     explicit BuilderImplementation(const Options &options, Provider &provider);
 
     ~BuilderImplementation();
+    
+    bool init(void);
 
     const Uchar* getNext(void);
 
@@ -57,11 +59,18 @@ namespace image {
   {
     pixels = new Uchar[pixelsSize];
     page_current = new Uchar[pixelsSize];
-
-    provider.update();
-    Profiles page = provider.getPage(0);
-    builder.build(page, 1, provider.getPagesCount());
-    memcpy(pixels, builder.getPixels(), pixelsSize);
+  }
+  
+  bool BuilderImplementation::init(void) {
+    if (builder.init()) {
+      provider.update();
+      Profiles page = provider.getPage(0);
+      builder.build(page, 1, provider.getPagesCount());
+      memcpy(pixels, builder.getPixels(), pixelsSize);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   BuilderImplementation::~BuilderImplementation() {
@@ -71,6 +80,10 @@ namespace image {
 
   Builder::Builder(const Options &options, Provider &provider) {
     impl = new BuilderImplementation(options, provider);
+  }
+  
+  bool Builder::init(void) {
+    return static_cast<BuilderImplementation*>(impl)->init();
   }
 
   Builder::~Builder() {

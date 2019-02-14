@@ -30,6 +30,8 @@ namespace image {
    */
     Builder(const Options &options, Provider &provider);
     ~Builder();
+    
+    bool init(void);
 
     /**
      * @brief         Get image frame for current time

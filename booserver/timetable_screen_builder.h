@@ -19,6 +19,7 @@ class TimetableScreenBuilder {
   int title_width;
   int study_width;
   int day_width;
+  bool testing;
   image::RGB title_face;
   image::RGB header_back;
   image::RGB header_face;
@@ -29,6 +30,18 @@ class TimetableScreenBuilder {
   image::FreeType font_title;
   image::FreeType font_caption;
   image::FreeType font_text;
+  std::string font_file;
+  std::string title_name;
+  std::string title_study;
+  std::string title_no_time;
+  std::string title_monday;
+  std::string title_tuesday;
+  std::string title_wednesday;
+  std::string title_thursday;
+  std::string title_fryday;
+  std::string title_saturday;
+  std::string title_sunday;
+  std::string title_testing;
 
   TimetableScreenBuilder(TimetableScreenBuilder&) = delete;
   void operator=(TimetableScreenBuilder&) = delete;
@@ -40,6 +53,8 @@ public:
    */
   explicit TimetableScreenBuilder(const Options &options);
   ~TimetableScreenBuilder();
+  
+  bool init(void);
 
   /**
    * @brief               Make image for the given timetable page
