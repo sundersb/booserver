@@ -106,6 +106,10 @@ install (TARGETS booserver DESTINATION ${BOOSERVER_INSTALL_BINARY_DIR}
 
 install (FILES
   booserver.conf
+  color_orig.conf
+  color_blue.conf
+  color_brown.conf
+  color_green.conf
   DESTINATION ${BOOSERVER_INSTALL_CONFIG_DIR}
   COMPONENT data_files
   PERMISSIONS WORLD_READ OWNER_WRITE OWNER_READ GROUP_READ)
