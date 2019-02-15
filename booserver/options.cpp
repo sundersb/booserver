@@ -138,20 +138,22 @@ bool load_file(const std::string &fileName, std::map<std::string, PMap> &mpx) {
 
   std::string line;
   while (std::getline(file, line)) {
-    // TODO: cleanup?
-    size_t from = line.find_first_not_of(' ');
+    size_t from = line.find_first_not_of(" \t");
     if (from == std::string::npos || line[from] == '#') continue;
 
-    size_t till = line.find_last_not_of(' ');
-
-    std::string::const_iterator begin = line.begin() + from;
-    std::string::const_iterator end = till == std::string::npos ? line.end() : line.begin() + till + 1;
-
-    std::string::const_iterator pos = std::find(begin, end, '=');
-    if (pos == end) continue;
-
-    std::string key (begin, pos);
-    std::string value (pos + 1, end);
+    size_t equ = line.find('=');
+    if (equ == from || equ == std::string::npos) continue;
+    
+    size_t pos = equ - 1;
+    while (std::isspace(line[pos])) --pos;
+    std::string key(line, from, pos - from +1);
+    
+    from = equ + 1;
+    while (std::isspace(line[from])) ++from;
+    pos = line.find_last_not_of(" \t\r\n");
+    if (pos == from) continue;
+    std::string value(line, from, pos - from + 1);
+    
     setValue(mpx, key, value);
   }
   
