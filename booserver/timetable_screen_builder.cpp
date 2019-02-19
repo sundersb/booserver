@@ -10,6 +10,7 @@ TimetableScreenBuilder::TimetableScreenBuilder(const Options &options):
   study_width(options.getWidth() / 14),
   day_width((options.getWidth() - title_width - study_width) / 7),
   testing(options.isTesting()),
+  color_clear(options.getClearColor()),
   title_face(options.getTitleFace()),
   header_back(options.getHeaderBack()),
   header_face(options.getHeaderFace()),
@@ -61,7 +62,7 @@ void TimetableScreenBuilder::build(const Profiles &ps, int page, int pageCount) 
   // Vertical distance between timetable profiles
   int dy = y;
 
-  canvas.clear();
+  canvas.clear(color_clear);
 
   for (const timetable::Profile &profile : ps) {
     image::Rect rect = { 0, y, canvas.getWidth() - 1, y + line_height * 2};

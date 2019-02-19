@@ -67,7 +67,7 @@ namespace image {
     /**
      * @brief           Fill canvas with black color
      */
-    void clear(void);
+    void clear(const RGB &color);
 
     /**
      * @brief               Draw vertical line

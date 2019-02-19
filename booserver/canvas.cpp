@@ -31,8 +31,29 @@ int Canvas::getSize(void) const { return size; }
 unsigned char *Canvas::getPixels(void) { return pixels; }
 unsigned char *Canvas::getPixels(void) const { return pixels; }
 
-void Canvas::clear(void) {
-  memset(pixels, 0, size);
+void Canvas::clear(const RGB &color) {
+  if (color.r | color.g | color.b) {
+    // Colored fill
+    
+    unsigned char* ptr = pixels;
+
+    // First row - fill with the color
+    for (int j = 0; j < width; ++j) {
+      ptr[0] = color.r;
+      ptr[1] = color.g;
+      ptr[2] = color.b;
+      ptr += BPP;
+    }
+
+    // Other rows - copy the first one
+    for (int i = 0; i < height; ++i) {
+      memcpy(ptr, pixels, stride);
+      ptr += stride;
+    }
+  } else {
+    // Black fill
+    memset(pixels, 0, size);
+  }
 }
 
 void Canvas::vertical(const RGB &color, int x, int y0, int y1) {

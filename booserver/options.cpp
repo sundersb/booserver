@@ -25,6 +25,7 @@ const std::string DEFAULT_TITLE_SATURDAY = "SAT";
 const std::string DEFAULT_TITLE_SUNDAY = "SUN";
 const std::string DEFAULT_TITLE_TESTING = "TESTING";
 
+const image::RGB COLOR_CLEAR  = { 0x00, 0x00, 0x00 };
 const image::RGB COLOR_TITLE  = { 0x49, 0xba, 0x5a };
 const image::RGB COLOR_WHITE  = { 0xff, 0xff, 0xff };
 const image::RGB COLOR_ORANGE = { 0xf3, 0x8e, 0x42 };
@@ -70,6 +71,7 @@ Options::Options():
   title_saturday(DEFAULT_TITLE_SATURDAY),
   title_sunday(DEFAULT_TITLE_SUNDAY),
   title_testing(DEFAULT_TITLE_TESTING),
+  clear_color(COLOR_CLEAR),
   title_face(COLOR_TITLE),
   header_back(COLOR_ORANGE),
   header_face(COLOR_WHITE),
@@ -188,6 +190,7 @@ bool Options::load(const std::string &fileName) {
   mpx["title_saturday"] = { &title_saturday, TYPE_STRING };
   mpx["title_sunday"] = { &title_sunday, TYPE_STRING };
   mpx["title_testing"] = { &title_testing, TYPE_STRING };
+  mpx["color_clear"] = { &clear_color, TYPE_COLOR };
   mpx["color_title_face"] = { &title_face, TYPE_COLOR };
   mpx["color_header_back"] = { &header_back, TYPE_COLOR };
   mpx["color_header_face"] = { &header_face, TYPE_COLOR };

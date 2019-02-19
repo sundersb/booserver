@@ -63,6 +63,10 @@ int main(int argc, char **argv) {
     options.getSqlPassword());
 
   TimetableScreenBuilder builder(options);
+  if (!builder.init()) {
+    std::cout << "Failed to initialize image builder!" << std::endl;
+    return 1;
+  }
 
   provider.update();
   int count = provider.getPagesCount();

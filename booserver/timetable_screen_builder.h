@@ -20,6 +20,7 @@ class TimetableScreenBuilder {
   int study_width;
   int day_width;
   bool testing;
+  image::RGB color_clear;
   image::RGB title_face;
   image::RGB header_back;
   image::RGB header_face;
