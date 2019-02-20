@@ -15,7 +15,7 @@ const int HEADER_LINES = 3;
 
 const int VERSION_MAJOR = 1;
 const int VERSION_MINOR = 0;
-const int VERSION_RELEASE = 4;
+const int VERSION_RELEASE = 5;
 
 int main(int argc, char **argv) {
   std::cout << "Booserver v."
@@ -38,7 +38,8 @@ int main(int argc, char **argv) {
     return 1;
   }
   
-  MulticastStreamer streamer(&imageBuilder, options.getIP().c_str());
+  std::string port = std::to_string(options.getPort());
+  MulticastStreamer streamer(&imageBuilder, options.getIP().c_str(), port.c_str(), options.getMountPoint().c_str());
 
   if (streamer.init(argc, argv)) {
     std::cout << "Starting" << std::endl;

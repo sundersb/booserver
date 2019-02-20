@@ -25,8 +25,8 @@ const char *GSTREAMER_PIPELINE =
   "! x264enc tune=zerolatency "
   "! rtph264pay name=pay0 pt=96 )";
 
-const char *MOUNT_POINT = "/live";
-const char *PORT = "8554";
+//const char *MOUNT_POINT = "/live";
+//const char *PORT = "8554";
 
 const char *MULTICAST_IP_FIRST = "227.5.0.0";
 const char *MULTICAST_IP_LAST = "227.5.0.10";
@@ -47,11 +47,13 @@ class MCImplementation {
   image::Builder *builder;  // frames generator
   guint64 offset;           // last frame ordinal number
   const char *ip;           // IP for the server to listen on
+  const char *port;
+  const char *mount_point;
   GstClockTime duration;    // single frame duration (in nanoseconds)
   bool enough;              // flag to stop frames feeding
   bool running;             // flag to show run() is on the way
 public:
-  MCImplementation (image::Builder *builder, const char *ip);
+  MCImplementation (image::Builder *builder, const char *ip, const char *port, const char *mount_point);
 
   bool init(int argc, char **argv);
   void run(void);
@@ -74,8 +76,8 @@ public:
 
 //          MulticastStreamer
 // ***********************
-MulticastStreamer::MulticastStreamer(image::Builder *builder, const char *ip) {
-  impl = new MCImplementation(builder, ip);
+MulticastStreamer::MulticastStreamer(image::Builder *builder, const char *ip, const char *port, const char *mount_point) {
+  impl = new MCImplementation(builder, ip, port, mount_point);
 }
 
 MulticastStreamer::~MulticastStreamer() {
@@ -154,11 +156,13 @@ bool initGstream(int argc, char **argv) {
 
 //         MCImplementation
 // ***********************
-MCImplementation::MCImplementation (image::Builder *builder, const char *ip):
+MCImplementation::MCImplementation (image::Builder *builder, const char *ip, const char *port, const char *mount_point):
   loop(NULL),
   builder(builder),
   offset(0),
   ip(ip),
+  port(port),
+  mount_point(mount_point),
   enough(false),
   running(false)
 {
@@ -176,7 +180,7 @@ bool MCImplementation::init(int argc, char **argv) {
 
   GstRTSPServer *server = gst_rtsp_server_new ();
   gst_rtsp_server_set_address (server, ip);
-  gst_rtsp_server_set_service (server, PORT);
+  gst_rtsp_server_set_service (server, port);
 
   GstRTSPMountPoints *mounts = gst_rtsp_server_get_mount_points (server);
 
@@ -204,7 +208,7 @@ bool MCImplementation::init(int argc, char **argv) {
   g_object_unref (pool);
 
   // Set mount point for the factory
-  gst_rtsp_mount_points_add_factory (mounts, MOUNT_POINT, factory);
+  gst_rtsp_mount_points_add_factory (mounts, mount_point, factory);
   g_object_unref (mounts);
 
   if (gst_rtsp_server_attach (server, NULL) == 0) return false;
@@ -221,8 +225,8 @@ void MCImplementation::run(void) {
   std::cout << "stream ready at rtsp://"
     << ip
     << ':'
-    << PORT
-    << MOUNT_POINT
+    << port
+    << mount_point
     << std::endl;
 
   running = true;

@@ -10,6 +10,7 @@ const int FPS = 10;
 const int LINES_COUNT = 18;
 const int HEADER_LINES = 3;
 const int DEFAULT_PAGE_DURATION = 30;
+const int DEFAULT_PORT = 8554;
 
 const std::string DEFAULT_FONT_FILENAME = "SourceSerifPro-Regular.otf";
 
@@ -35,6 +36,7 @@ const image::RGB COLOR_GOLD   = { 0xff, 0xd7, 0x00 };
 const image::RGB COLOR_ATTENTION   = { 0xff, 0x10, 0x10 };
 
 const std::string IP = "127.0.0.1";
+const std::string DEFAULT_MOUNT_POINT = "/live";
 
 const std::string SQL_SERVER = "localhost";
 const std::string SQL_DATABASE = "booserver";
@@ -53,8 +55,10 @@ Options::Options():
   fps(FPS),
   lines(LINES_COUNT),
   duration(DEFAULT_PAGE_DURATION),
+  port(DEFAULT_PORT),
   testing(false),
   ip(IP),
+  mount_point(DEFAULT_MOUNT_POINT),
   font(DEFAULT_FONT_FILENAME),
   sql_host(SQL_SERVER),
   sql_database(SQL_DATABASE),
@@ -168,11 +172,13 @@ bool Options::load(const std::string &fileName) {
   std::map<std::string, PMap> mpx;
   
   mpx["interface"] = { &ip, TYPE_STRING };
+  mpx["mount_point"] = { &mount_point, TYPE_STRING };
   mpx["width"] = { &width, TYPE_INT };
   mpx["height"] = { &height, TYPE_INT };
   mpx["fps"] = { &fps, TYPE_INT };
   mpx["lines"] = { &lines, TYPE_INT };
   mpx["page_duration"] = { &duration, TYPE_INT };
+  mpx["port"] = { &port, TYPE_INT };
   mpx["testing"] = { &testing, TYPE_BOOL };
   mpx["fontfile"] = { &font, TYPE_STRING };
   mpx["host"] = { &sql_host, TYPE_STRING };

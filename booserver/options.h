@@ -11,8 +11,10 @@ class Options {
   int fps;
   int lines;
   int duration;
+  int port;
   bool testing;
   std::string ip;
+  std::string mount_point;
   std::string font;
   std::string sql_host;
   std::string sql_database;
@@ -46,9 +48,11 @@ public:
   int getFps(void) const { return fps; }
   int getLines(void) const { return lines; }
   int getDuration(void) const { return duration; }
+  int getPort(void) const { return port; }
   bool isTesting(void) const { return testing; }
   
   const std::string& getIP(void) const { return ip; }
+  const std::string& getMountPoint(void) const { return mount_point; }
   const std::string& getFontFile(void) const { return font; }
   const std::string& getSqlHost(void) const { return sql_host; }
   const std::string& getSqlDatabase(void) const { return sql_database; }

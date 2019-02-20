@@ -28,10 +28,12 @@ public:
    * @brief   Ctor
    * @param builder       Dynamic image builder
    * @param ip              IP address to listen for connections on
+   * @param port            Port to listen on
+   * @param mount_point     Mount point to associate with the media
    *
    *  Builder has frame width, height and fps set
    */
-  MulticastStreamer(image::Builder *builder, const char *ip);
+  MulticastStreamer(image::Builder *builder, const char *ip, const char *port, const char *mount_point);
   ~MulticastStreamer();
 
   /**
