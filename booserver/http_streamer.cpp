@@ -12,7 +12,7 @@
 #include <gst/app/gstappsrc.h>
 #include <gst/video/video.h>
 
-const int MAX_FILES = 10;
+const int MAX_FILES = 3;
 const int TARGET_DURATION = 30;
 const std::string HTTP_GST_PIPELINE =
   "appsrc name=appsource "
@@ -50,6 +50,7 @@ class HttpImplementation {
   bool enough;
 
   GMainLoop *loop;
+  GstPipeline *pipeline;
 
   guint64 offset;
   GstClockTime duration;
@@ -100,35 +101,6 @@ void HttpStreamer::quit(void) {
 
 //       GLIBC callbacks
 // ***********************
-static gboolean bus_message (GstBus *bus, GstMessage *message, HttpImplementation *app) { 
-  GST_DEBUG ("got message %s", gst_message_type_get_name (GST_MESSAGE_TYPE (message)));
-
-  switch (GST_MESSAGE_TYPE (message)) {
-    
-  case GST_MESSAGE_ERROR: {
-    GError *err = NULL;
-    gchar *dbg_info = NULL;
-
-    gst_message_parse_error (message, &err, &dbg_info);
-    g_printerr ("ERROR from element %s: %s\n", GST_OBJECT_NAME (message->src), err->message);
-    g_printerr ("Debugging info: %s\n", (dbg_info) ? dbg_info : "none");
-    g_error_free (err);
-    g_free (dbg_info);
-    g_main_loop_quit (app->getMainLoop());
-    break;
-  }
-  
-  case GST_MESSAGE_EOS:
-    g_main_loop_quit (app->getMainLoop());
-    break;
-    
-  default:
-    break;
-  }
-  
-  return TRUE;
-}
-
 // Start feeding frames to the streaming queue
 static void need_data (GstAppSrc *appsrc, guint size, HttpImplementation *streamer) {
   streamer->feed(appsrc, size);
@@ -147,10 +119,8 @@ HttpImplementation::HttpImplementation(image::Builder *builder, const Options &o
   builder(builder),
   running(false),
   enough(false),
-//  pipeline(nullptr),
-//  appsrc(nullptr),
   loop(nullptr),
-//  bus(nullptr),
+  pipeline(nullptr),
   offset(0),
   pipe(getHttpPipeline(options))
 {
@@ -160,18 +130,19 @@ HttpImplementation::HttpImplementation(image::Builder *builder, const Options &o
 
 HttpImplementation::~HttpImplementation() {
   quit();
+  if (pipeline) gst_object_unref(pipeline);
 }
 
 bool HttpImplementation::init(void) {
   loop = g_main_loop_new (NULL, TRUE);
 
-  GstElement *pipeline = gst_parse_launch(pipe.c_str(), NULL);
+  pipeline = GST_PIPELINE(gst_parse_launch(pipe.c_str(), NULL));
   if (!pipeline) return false;
   
-  GstBus *bus = gst_pipeline_get_bus (GST_PIPELINE (pipeline));
-  if (!bus) return false;
-  
-  gst_bus_add_watch (bus, (GstBusFunc)bus_message, this);
+//  GstBus *bus = gst_pipeline_get_bus (GST_PIPELINE (pipeline));
+//  if (!bus) return false;
+//  
+//  gst_bus_add_watch (bus, (GstBusFunc)bus_message, this);
   GstElement *appsrc = gst_bin_get_by_name (GST_BIN(pipeline), "appsource");
 
   if (!appsrc) return false;
@@ -195,8 +166,7 @@ bool HttpImplementation::init(void) {
   gst_app_src_set_stream_type(GST_APP_SRC(appsrc), GST_APP_STREAM_TYPE_STREAM);
 
   gst_object_unref (appsrc);
-  gst_object_unref (bus);
-  gst_object_unref (pipeline);
+//  gst_object_unref (bus);
 
   return true;
 }
@@ -230,11 +200,14 @@ void HttpImplementation::run(void) {
 
   running = true;
 
+  gst_element_set_state(GST_ELEMENT(pipeline), GST_STATE_PLAYING);
   g_main_loop_run (loop);
 }
 
 void HttpImplementation::quit(void) {
   if (!running) {
+    assert(pipeline);
+    gst_element_set_state(GST_ELEMENT(pipeline), GST_STATE_PAUSED);
     g_main_loop_quit(loop);
     running = false;
   }
