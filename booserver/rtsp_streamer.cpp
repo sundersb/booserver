@@ -36,13 +36,13 @@ const guint16 PORT_MAX = 5010;
 const guint8 TTL = 16;
 
 /**
- * @class MCImplementation
+ * @class RtspImplementation
  * @author ivanhoe
  * @date 28/10/18
  * @file multicast_streamer.cpp
  * @brief     Multicast RTSP implementation
  */
-class MCImplementation {
+class RtspImplementation {
   GMainLoop *loop;          // glibc main loop
   image::Builder *builder;  // frames generator
   guint64 offset;           // last frame ordinal number
@@ -53,7 +53,7 @@ class MCImplementation {
   bool enough;              // flag to stop frames feeding
   bool running;             // flag to show run() is on the way
 public:
-  MCImplementation (image::Builder *builder, const std::string &ip, const std::string &port, const std::string &mount_point);
+  RtspImplementation (image::Builder *builder, const std::string &ip, const std::string &port, const std::string &mount_point);
 
   bool init(int argc, char **argv);
   void run(void);
@@ -74,30 +74,30 @@ public:
 };
 
 
-//          MulticastStreamer
+//          RtspStreamer
 // ***********************
-MulticastStreamer::MulticastStreamer(image::Builder *builder, const std::string &ip, const std::string &port, const std::string &mount_point) {
-  impl = new MCImplementation(builder, ip, port, mount_point);
+RtspStreamer::RtspStreamer(image::Builder *builder, const std::string &ip, const std::string &port, const std::string &mount_point) {
+  impl = new RtspImplementation(builder, ip, port, mount_point);
 }
 
-MulticastStreamer::~MulticastStreamer() {
+RtspStreamer::~RtspStreamer() {
   assert(impl);
-  delete static_cast<MCImplementation*>(impl);
+  delete static_cast<RtspImplementation*>(impl);
 }
 
-bool MulticastStreamer::init(int argc, char **argv) {
+bool RtspStreamer::init(int argc, char **argv) {
   assert(impl);
-  return static_cast<MCImplementation*>(impl)->init(argc, argv);
+  return static_cast<RtspImplementation*>(impl)->init(argc, argv);
 }
 
-void MulticastStreamer::run(void) {
+void RtspStreamer::run(void) {
   assert(impl);
-  static_cast<MCImplementation*>(impl)->run();
+  static_cast<RtspImplementation*>(impl)->run();
 }
 
-void MulticastStreamer::quit(void) {
+void RtspStreamer::quit(void) {
   assert(impl);
-  static_cast<MCImplementation*>(impl)->quit();
+  static_cast<RtspImplementation*>(impl)->quit();
 }
 
 
@@ -115,23 +115,23 @@ static gboolean timeout (GstRTSPServer * server) {
 }
 
 // Configure streaming pipe when it is about to start working
-static void media_configured (GstRTSPMediaFactory * factory, GstRTSPMedia * media, MCImplementation *streamer) {
+static void media_configured (GstRTSPMediaFactory * factory, GstRTSPMedia * media, RtspImplementation *streamer) {
   streamer->configure(media);
 }
 
 // Reset timestamp when all clients have been disconnected
-static void media_unprepared (GstRTSPMedia * media, MCImplementation *streamer) {
+static void media_unprepared (GstRTSPMedia * media, RtspImplementation *streamer) {
   // Without this trick all following clients would lack old frames
   streamer->reset();
 }
 
 // Start feeding frames to the streaming queue
-static void need_data (GstAppSrc *appsrc, guint size, MCImplementation *streamer) {
+static void need_data (GstAppSrc *appsrc, guint size, RtspImplementation *streamer) {
   streamer->feed(appsrc, size);
 }
 
 // Stop feeding queue with frames
-static void enough_data(GstAppSrc *appsrc, MCImplementation *streamer) {
+static void enough_data(GstAppSrc *appsrc, RtspImplementation *streamer) {
   streamer->stop_feeding(appsrc);
 }
 
@@ -154,9 +154,9 @@ bool initGstream(int argc, char **argv) {
 }
 
 
-//         MCImplementation
+//         RtspImplementation
 // ***********************
-MCImplementation::MCImplementation (image::Builder *builder, const std::string &ip, const std::string &port, const std::string &mount_point):
+RtspImplementation::RtspImplementation (image::Builder *builder, const std::string &ip, const std::string &port, const std::string &mount_point):
   loop(NULL),
   builder(builder),
   offset(0),
@@ -171,7 +171,7 @@ MCImplementation::MCImplementation (image::Builder *builder, const std::string &
 }
 
 
-bool MCImplementation::init(int argc, char **argv) {
+bool RtspImplementation::init(int argc, char **argv) {
   // Init GStreamer
   if (!initGstream(argc, argv)) return false;
 
@@ -220,7 +220,7 @@ bool MCImplementation::init(int argc, char **argv) {
 }
 
 
-void MCImplementation::run(void) {
+void RtspImplementation::run(void) {
   assert(loop);
   std::cout << "stream ready at rtsp://"
     << ip
@@ -235,7 +235,7 @@ void MCImplementation::run(void) {
 }
 
 
-void MCImplementation::configure (GstRTSPMedia *media) {
+void RtspImplementation::configure (GstRTSPMedia *media) {
   GstElement *element = gst_rtsp_media_get_element (media);
   GstElement *appsrc = gst_bin_get_by_name_recurse_up (GST_BIN (element), "appsource");
 
@@ -281,7 +281,7 @@ void MCImplementation::configure (GstRTSPMedia *media) {
   g_signal_connect (media, "unprepared", (GCallback) media_unprepared, this);
 }
 
-void MCImplementation::feed (GstAppSrc *appsrc, guint size) {
+void RtspImplementation::feed (GstAppSrc *appsrc, guint size) {
   assert(appsrc);
   enough = false;
 
@@ -315,17 +315,17 @@ void MCImplementation::feed (GstAppSrc *appsrc, guint size) {
   }
 }
 
-void MCImplementation::stop_feeding (GstAppSrc *appsrc) {
+void RtspImplementation::stop_feeding (GstAppSrc *appsrc) {
   // Signal to stop feeding
   enough = true;
 }
 
-void MCImplementation::quit(void) {
+void RtspImplementation::quit(void) {
   assert(loop);
   if (running) g_main_loop_quit (loop);
 }
 
-void MCImplementation::reset(void) {
+void RtspImplementation::reset(void) {
   offset = 0;
   builder->reset();
 }

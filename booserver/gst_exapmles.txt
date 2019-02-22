@@ -50,3 +50,14 @@ const char* GSTREAMER_PIPELINE =
   "! rtph264pay "
   "! rtpstreampay "
   "! tcpserversink port=7001"; // Error "x264 [error]: baseline profile doesn't support 4:4:4"
+
+  
+http streaming (open http://server.com/playlist.m3u8)
+https://www.questarter.com/q/http-streaming-with-gst-launch-gstreamer-2_443411.html
+
+gst-launch-1.0 videotestsrc is-live=true ! x264enc ! mpegtsmux ! hlssink max-files=5  playlist-root=http://server.com location=/var/www/hlssink playlist-location=/var/www/hlssink
+
+gst-launch-1.0 videotestsrc is-live=true ! x264enc ! mpegtsmux ! hlssink max-files=5  playlist-root=http://127.0.0.1 location=/temp playlist-location=/temp
+
+gst-launch-1.0 videotestsrc is-live=true ! x264enc ! mpegtsmux ! hlssink max-files=5 playlist-root=http://127.0.0.1/zz/ playlist-location=/Utils/www/htdocs/zz/pl.m3u8 location=/Utils/www/htdocs/zz/pl.%05d.ts target-duration=30 --gst-debug=3
+

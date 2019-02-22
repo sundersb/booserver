@@ -1,6 +1,6 @@
 #include <iostream>
 #include "image_builder.h"
-#include "multicast_streamer.h"
+#include "streamer.h"
 #include "provider.h"
 #include "options.h"
 
@@ -14,8 +14,8 @@
 const int HEADER_LINES = 3;
 
 const int VERSION_MAJOR = 1;
-const int VERSION_MINOR = 0;
-const int VERSION_RELEASE = 5;
+const int VERSION_MINOR = 1;
+const int VERSION_RELEASE = 1;
 
 int main(int argc, char **argv) {
   std::cout << "Booserver v."
@@ -38,12 +38,14 @@ int main(int argc, char **argv) {
     return 1;
   }
   
-  std::string port = std::to_string(options.getPort());
-  MulticastStreamer streamer(&imageBuilder, options.getIP().c_str(), port.c_str(), options.getMountPoint().c_str());
+//  std::string port = std::to_string(options.getPort());
+//  MulticastStreamer streamer(&imageBuilder, options.getIP().c_str(), port.c_str(), options.getMountPoint().c_str());
+  
+  Streamer *streamer = Streamer::getStreamer(&imageBuilder, options);
 
-  if (streamer.init(argc, argv)) {
+  if (streamer && streamer->init(argc, argv)) {
     std::cout << "Starting" << std::endl;
-    streamer.run();
+    streamer->run();
   } else {
     std::cout << "Failed to init streamer!" << std::endl;
   }

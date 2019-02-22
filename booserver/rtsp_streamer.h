@@ -1,11 +1,8 @@
 #pragma once
-
-namespace image {
-  class Builder;
-}
-
+#include <string>
+#include "streamer.h"
 /**
- * @class MulticastStreamer
+ * @class RtspStreamer
  * @author ivanhoe
  * @date 28/10/18
  * @file multicast_streamer.h
@@ -16,13 +13,11 @@ namespace image {
  *    "application/x-rtp,media=video,encoding-name=H264,payload=96" ! \
  *    rtph264depay ! decodebin ! autovideosink
  */
-class MulticastStreamer {
-  void *impl;
-
-  MulticastStreamer() = delete;
-  MulticastStreamer(const MulticastStreamer&) = delete;
-  MulticastStreamer(MulticastStreamer&&) = delete;
-  void operator=(const MulticastStreamer&) = delete;
+class RtspStreamer: public Streamer {
+  RtspStreamer() = delete;
+  RtspStreamer(const RtspStreamer&) = delete;
+  RtspStreamer(RtspStreamer&&) = delete;
+  void operator=(const RtspStreamer&) = delete;
 public:
   /**
    * @brief   Ctor
@@ -33,8 +28,8 @@ public:
    *
    *  Builder has frame width, height and fps set
    */
-  MulticastStreamer(image::Builder *builder, const char *ip, const char *port, const char *mount_point);
-  ~MulticastStreamer();
+  RtspStreamer(image::Builder *builder, const std::string &ip, const std::string &port, const std::string &mount_point);
+  ~RtspStreamer();
 
   /**
    * @brief                     Initialize

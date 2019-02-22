@@ -37,6 +37,9 @@ const image::RGB COLOR_ATTENTION   = { 0xff, 0x10, 0x10 };
 
 const std::string IP = "127.0.0.1";
 const std::string DEFAULT_MOUNT_POINT = "/live";
+const std::string DEFAULT_PLAYLIST_LOCATION = "/var/www/htdocs/live/playlist.m3u8";
+const std::string DEFAULT_SEGMENTS_LOCATION = "/var/www/htdocs/live/segment.%05d.ts";
+const std::string DEFAULT_METHOD = "rtsp";
 
 const std::string SQL_SERVER = "localhost";
 const std::string SQL_DATABASE = "booserver";
@@ -59,6 +62,9 @@ Options::Options():
   testing(false),
   ip(IP),
   mount_point(DEFAULT_MOUNT_POINT),
+  playlist_location(DEFAULT_PLAYLIST_LOCATION),
+  segments_location(DEFAULT_SEGMENTS_LOCATION),
+  method(DEFAULT_METHOD),
   font(DEFAULT_FONT_FILENAME),
   sql_host(SQL_SERVER),
   sql_database(SQL_DATABASE),
@@ -173,6 +179,9 @@ bool Options::load(const std::string &fileName) {
   
   mpx["interface"] = { &ip, TYPE_STRING };
   mpx["mount_point"] = { &mount_point, TYPE_STRING };
+  mpx["playlist_location"] = { &playlist_location, TYPE_STRING };
+  mpx["segments_location"] = { &segments_location, TYPE_STRING };
+  mpx["method"] = { &method, TYPE_STRING };
   mpx["width"] = { &width, TYPE_INT };
   mpx["height"] = { &height, TYPE_INT };
   mpx["fps"] = { &fps, TYPE_INT };

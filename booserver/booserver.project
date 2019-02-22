@@ -3,6 +3,10 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="rtsp_streamer.cpp"/>
+    <File Name="rtsp_streamer.h"/>
+    <File Name="streamer.cpp"/>
+    <File Name="streamer.h"/>
     <File Name="options.cpp"/>
     <File Name="options.h"/>
     <File Name="booserver.conf" ExcludeProjConfig="Debug;"/>
@@ -31,8 +35,6 @@
     </VirtualDirectory>
     <File Name="timetable_screen_builder.cpp"/>
     <File Name="timetable_screen_builder.h"/>
-    <File Name="multicast_streamer.h"/>
-    <File Name="multicast_streamer.cpp"/>
     <File Name="image_builder.cpp"/>
     <File Name="image_builder.h"/>
     <File Name="booserver.cpp"/>

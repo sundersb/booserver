@@ -15,6 +15,9 @@ class Options {
   bool testing;
   std::string ip;
   std::string mount_point;
+  std::string playlist_location;
+  std::string segments_location;
+  std::string method;
   std::string font;
   std::string sql_host;
   std::string sql_database;
@@ -53,6 +56,10 @@ public:
   
   const std::string& getIP(void) const { return ip; }
   const std::string& getMountPoint(void) const { return mount_point; }
+  const std::string& getPlaylistLocation(void) const { return playlist_location; }
+  const std::string& getSegmentsLocation(void) const { return segments_location; }
+  const std::string& getMethod(void) const { return method; }
+  
   const std::string& getFontFile(void) const { return font; }
   const std::string& getSqlHost(void) const { return sql_host; }
   const std::string& getSqlDatabase(void) const { return sql_database; }
