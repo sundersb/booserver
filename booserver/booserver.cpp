@@ -38,9 +38,6 @@ int main(int argc, char **argv) {
     return 1;
   }
   
-//  std::string port = std::to_string(options.getPort());
-//  MulticastStreamer streamer(&imageBuilder, options.getIP().c_str(), port.c_str(), options.getMountPoint().c_str());
-  
   Streamer *streamer = Streamer::getStreamer(&imageBuilder, options);
 
   if (streamer && streamer->init(argc, argv)) {

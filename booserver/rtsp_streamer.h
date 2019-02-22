@@ -28,7 +28,7 @@ public:
    *
    *  Builder has frame width, height and fps set
    */
-  RtspStreamer(image::Builder *builder, const std::string &ip, const std::string &port, const std::string &mount_point);
+  RtspStreamer(image::Builder *builder, const Options &options);
   ~RtspStreamer();
 
   /**

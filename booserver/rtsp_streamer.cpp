@@ -11,11 +11,6 @@
 #include <cstring>
 #include <iostream>
 
-GST_DEBUG_CATEGORY (appsrc_pipeline_debug);
-#define GST_CAT_DEFAULT appsrc_pipeline_debug
-
-const GstClockTime TRILLION = 1000000000;
-
 // Gstreamer pipe for dynamic frames acquisition, H264 compressing
 // and making ready to be served away
 const char *GSTREAMER_PIPELINE =
@@ -24,9 +19,6 @@ const char *GSTREAMER_PIPELINE =
   "! video/x-raw,format=I420 "
   "! x264enc tune=zerolatency "
   "! rtph264pay name=pay0 pt=96 )";
-
-//const char *MOUNT_POINT = "/live";
-//const char *PORT = "8554";
 
 const char *MULTICAST_IP_FIRST = "227.5.0.0";
 const char *MULTICAST_IP_LAST = "227.5.0.10";
@@ -55,7 +47,7 @@ class RtspImplementation {
 public:
   RtspImplementation (image::Builder *builder, const std::string &ip, const std::string &port, const std::string &mount_point);
 
-  bool init(int argc, char **argv);
+  bool init(void);
   void run(void);
 
   // Configure appsrc when media is about to be used
@@ -76,8 +68,9 @@ public:
 
 //          RtspStreamer
 // ***********************
-RtspStreamer::RtspStreamer(image::Builder *builder, const std::string &ip, const std::string &port, const std::string &mount_point) {
-  impl = new RtspImplementation(builder, ip, port, mount_point);
+RtspStreamer::RtspStreamer(image::Builder *builder, const Options &options) {
+  std::string port = std::to_string(options.getPort());
+  impl = new RtspImplementation(builder, options.getIP(), port, options.getMountPoint());
 }
 
 RtspStreamer::~RtspStreamer() {
@@ -87,7 +80,8 @@ RtspStreamer::~RtspStreamer() {
 
 bool RtspStreamer::init(int argc, char **argv) {
   assert(impl);
-  return static_cast<RtspImplementation*>(impl)->init(argc, argv);
+  if (!Streamer::init(argc, argv)) return false;
+  return static_cast<RtspImplementation*>(impl)->init();
 }
 
 void RtspStreamer::run(void) {
@@ -135,25 +129,6 @@ static void enough_data(GstAppSrc *appsrc, RtspImplementation *streamer) {
   streamer->stop_feeding(appsrc);
 }
 
-// Initialize GStreamer
-bool initGstream(int argc, char **argv) {
-  static bool inited = false;
-
-  if (!inited) {
-    if (gst_init_check(&argc, &argv, NULL) == FALSE)
-      return false;
-
-    GST_DEBUG_CATEGORY_INIT (appsrc_pipeline_debug,
-      "booserver-pipeline",
-      0,
-      "Booserver timetable translation");
-
-    inited = true;
-  }
-  return inited;
-}
-
-
 //         RtspImplementation
 // ***********************
 RtspImplementation::RtspImplementation (image::Builder *builder, const std::string &ip, const std::string &port, const std::string &mount_point):
@@ -171,10 +146,7 @@ RtspImplementation::RtspImplementation (image::Builder *builder, const std::stri
 }
 
 
-bool RtspImplementation::init(int argc, char **argv) {
-  // Init GStreamer
-  if (!initGstream(argc, argv)) return false;
-
+bool RtspImplementation::init(void) {
   // Create server and main loop
   loop = g_main_loop_new (NULL, FALSE);
 

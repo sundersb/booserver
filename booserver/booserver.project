@@ -3,6 +3,8 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="http_streamer.cpp"/>
+    <File Name="http_streamer.h"/>
     <File Name="rtsp_streamer.cpp"/>
     <File Name="rtsp_streamer.h"/>
     <File Name="streamer.cpp"/>

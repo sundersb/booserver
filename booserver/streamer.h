@@ -6,6 +6,8 @@ namespace image {
 
 class Options;
 
+const unsigned long TRILLION = 1000000000;
+
 /**
  * @class Streamer
  * @author Sunders
@@ -37,7 +39,7 @@ public:
    * @param argc          Commandline parameters count for GStreamer
    * @param argv          Commandline arguments for GStreamer
    */
-  virtual bool init(int argc, char **argv) = 0;
+  virtual bool init(int argc, char **argv);
 
   /**
    * @brief                     Run server
