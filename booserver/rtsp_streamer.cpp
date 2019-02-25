@@ -175,6 +175,10 @@ bool RtspImplementation::init(void) {
 
   // Limit available protocols to multicasting only. Somehow prevents from running properly...
 //  gst_rtsp_media_factory_set_protocols (factory, GST_RTSP_LOWER_TRANS_UDP_MCAST);
+
+//  gst_rtsp_media_factory_set_protocols (factory, GST_RTSP_LOWER_TRANS_UDP);
+//  gst_rtsp_media_factory_set_protocols (factory, GST_RTSP_LOWER_TRANS_HTTP);
+//  gst_rtsp_media_factory_set_protocols (factory, GST_RTSP_LOWER_TRANS_TCP);
   // TODO: HOWTO make this really multicast??
 
   g_object_unref (pool);
