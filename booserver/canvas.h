@@ -39,6 +39,7 @@ namespace image {
      * @param height    Image height in pixels
      */
     Canvas(int width, int height);
+    bool init(void);
 
     ~Canvas();
 

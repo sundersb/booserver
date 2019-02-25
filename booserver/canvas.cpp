@@ -16,9 +16,14 @@ Canvas::Canvas(int width, int height):
   width(width),
   height(height),
   size(width * height * BPP),
-  stride(width * BPP)
+  stride(width * BPP),
+  pixels(nullptr)
 {
+}
+
+bool Canvas::init(void) {
   pixels = new unsigned char [size];
+  return pixels != nullptr;
 }
 
 Canvas::~Canvas() {
@@ -46,7 +51,7 @@ void Canvas::clear(const RGB &color) {
     }
 
     // Other rows - copy the first one
-    for (int i = 0; i < height; ++i) {
+    for (int i = 1; i < height; ++i) {
       memcpy(ptr, pixels, stride);
       ptr += stride;
     }

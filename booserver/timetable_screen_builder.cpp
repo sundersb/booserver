@@ -34,6 +34,8 @@ TimetableScreenBuilder::TimetableScreenBuilder(const Options &options):
 }
 
 bool TimetableScreenBuilder::init(void) {
+  if (!canvas.init()) return false;
+  
   int fsize = line_height;
   return font_title.init(font_file, fsize, 72)
     && font_caption.init(font_file, fsize * 3 / 5, 72)

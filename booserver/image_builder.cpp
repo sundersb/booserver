@@ -57,11 +57,15 @@ namespace image {
     transition(false),
     transition_frame(0)
   {
-    pixels = new Uchar[pixelsSize];
-    page_current = new Uchar[pixelsSize];
   }
   
   bool BuilderImplementation::init(void) {
+    pixels = new Uchar[pixelsSize];
+    if (!pixels) return false;
+    
+    page_current = new Uchar[pixelsSize];
+    if (!page_current) return false;
+
     if (builder.init()) {
       provider.update();
       Profiles page = provider.getPage(0);
