@@ -61,3 +61,4 @@ gst-launch-1.0 videotestsrc is-live=true ! x264enc ! mpegtsmux ! hlssink max-fil
 
 gst-launch-1.0 videotestsrc is-live=true ! x264enc ! mpegtsmux ! hlssink max-files=5 playlist-root=http://127.0.0.1/zz/ playlist-location=/Utils/www/htdocs/zz/pl.m3u8 location=/Utils/www/htdocs/zz/pl.%05d.ts target-duration=30 --gst-debug=3
 
+gst-launch-1.0 videotestsrc is-live=true ! x264enc ! mpegtsmux ! hlssink max-files=5 playlist-root=http://192.168.88.77/live/ location=/var/www/http/live/seg.%05d.ts playlist-location=/var/www/http/live/playlist.m3u8 target-duration=30 --gst-debug=3

@@ -37,7 +37,9 @@ set (BOOSERVER_SOURCES
   ${CMAKE_CURRENT_SOURCE_DIR}/doctor.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/ftype.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/image_builder.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/multicast_streamer.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/streamer.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/http_streamer.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/rtsp_streamer.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/options.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/profile.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/provider.cpp
