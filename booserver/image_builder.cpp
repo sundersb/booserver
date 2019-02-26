@@ -150,7 +150,10 @@ namespace image {
       ++screen;
       provider.update();
       Profiles page = provider.getPage(screen);
+      
+      if (provider.getPagesCount() == 0) return nullptr;
       screen %= provider.getPagesCount();
+
       builder.build(page, screen + 1, provider.getPagesCount());
 
       transition = true;
