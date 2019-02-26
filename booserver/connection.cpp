@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <iostream>
 
-const unsigned int MYSQL_PORT = 3306;
+const unsigned int MYSQL_DEFAULT_PORT = 3306;
 const std::string SET_CODEPAGE = 
   "set names 'utf8' collate 'utf8_general_ci'";
 
@@ -25,10 +25,12 @@ bool MySqlConnection::init(const std::string &host,
     user.c_str(),
     pass.c_str(),
     db.c_str(),
-    MYSQL_PORT,
+    MYSQL_DEFAULT_PORT,
     NULL,
     0)) {
     std::cout << "Connection error: " << mysql_error(conn) << std::endl;
+    mysql_close(conn);
+    conn = nullptr;
     return false;
   }
     

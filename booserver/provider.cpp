@@ -72,6 +72,7 @@ std::string getSelectDoctorsQuery(const profile& prof) {
 }
 
 class ProviderImpl {
+  MySqlConnection connection;
   int linesCount;
   int headerLines;
   
@@ -187,6 +188,7 @@ void fillRules (MySqlConnection &conn, std::vector<TypicalDay> &days, const sdoc
 //           ProviderImpl
 // *******************************************
 ProviderImpl::ProviderImpl(int linesCount, int headerLines):
+  connection(),
   linesCount(linesCount),
   headerLines(headerLines) {}
 
@@ -199,7 +201,7 @@ bool ProviderImpl::init(const std::string &server,
   this->database = database;
   this->user = user;
   this->password = password;
-  return true;
+  return connection.init(server, database, user, password);
 }
 
 Profiles ProviderImpl::getPage(int page) {
@@ -255,10 +257,7 @@ int ProviderImpl::getPagesCount(void) const {
 }
 
 bool ProviderImpl::loadProfiles(std::list<profile> &profiles) {
-  MySqlConnection conn;
-  if (!conn.init(server, database, user, password)) return false;
-
-  std::shared_ptr<MYSQL_RES> res = conn.query(SELECT_PAGES);
+  std::shared_ptr<MYSQL_RES> res = connection.query(SELECT_PAGES);
   if (!res) return false;
 
   while (MYSQL_ROW row = mysql_fetch_row(res.get())) {
