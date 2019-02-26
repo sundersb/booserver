@@ -38,7 +38,6 @@ std::string getHttpPipeline(const Options &options) {
   
   str << " playlist-location=" << options.getPlaylistLocation()
     << " location=" << options.getSegmentsLocation()
-    << " playlist-length=0"
     << " target-duration=" << TARGET_DURATION;
   
   return str.str();
@@ -47,6 +46,7 @@ std::string getHttpPipeline(const Options &options) {
 class HttpImplementation {
   const Options &options;
   image::Builder *builder;
+  GTimer *timer;
   bool running;
   bool enough;
 
@@ -118,6 +118,7 @@ static void enough_data(GstAppSrc *appsrc, HttpImplementation *streamer) {
 HttpImplementation::HttpImplementation(image::Builder *builder, const Options &options):
   options(options),
   builder(builder),
+  timer(nullptr),
   running(false),
   enough(false),
   loop(nullptr),
@@ -167,6 +168,7 @@ bool HttpImplementation::init(void) {
   gst_app_src_set_stream_type(GST_APP_SRC(appsrc), GST_APP_STREAM_TYPE_STREAM);
 
   gst_object_unref (appsrc);
+  timer = g_timer_new();
 //  gst_object_unref (bus);
 
   return true;
@@ -201,6 +203,7 @@ void HttpImplementation::run(void) {
 
   running = true;
 
+  g_timer_start(timer);
   gst_element_set_state(GST_ELEMENT(pipeline), GST_STATE_PLAYING);
   g_main_loop_run (loop);
 }
@@ -245,6 +248,14 @@ void HttpImplementation::feed (GstAppSrc *appsrc, guint size) {
     g_signal_emit_by_name (appsrc, "push-buffer", buffer, &ret);
 
     gst_buffer_unref (buffer);
+    
+    if (offset % (options.getFps() * TARGET_DURATION) == 0) {
+      // Prevent TS-segments from being pushed too fast
+      while (g_timer_elapsed(timer, NULL) < TARGET_DURATION) {
+        g_usleep(1000 * 200);
+      }
+      g_timer_start(timer);
+    }
   }
 }
 
