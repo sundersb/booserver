@@ -1,6 +1,8 @@
 #include "connection.h"
 #include <assert.h>
+#include <iostream>
 
+const unsigned int MYSQL_PORT = 3306;
 const std::string SET_CODEPAGE = 
   "set names 'utf8' collate 'utf8_general_ci'";
 
@@ -22,7 +24,13 @@ bool MySqlConnection::init(const std::string &host,
     host.c_str(),
     user.c_str(),
     pass.c_str(),
-    db.c_str(), 0, 0, 0)) return false;
+    db.c_str(),
+    MYSQL_PORT,
+    NULL,
+    0)) {
+    std::cout << "Connection error: " << mysql_error(conn) << std::endl;
+    return false;
+  }
     
   return mysql_query(conn, SET_CODEPAGE.c_str()) == 0;
 }

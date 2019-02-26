@@ -12,10 +12,10 @@
 #include <gst/app/gstappsrc.h>
 #include <gst/video/video.h>
 
-const int MAX_FILES = 3;
+const int MAX_FILES = 5;
 const int TARGET_DURATION = 30;
 const std::string HTTP_GST_PIPELINE =
-  "appsrc name=appsource "
+  "appsrc name=appsource is-live=true "
   "! videoconvert "
   "! video/x-raw,format=I420 "
   "! x264enc tune=zerolatency "
@@ -38,6 +38,7 @@ std::string getHttpPipeline(const Options &options) {
   
   str << " playlist-location=" << options.getPlaylistLocation()
     << " location=" << options.getSegmentsLocation()
+    << " playlist-length=0"
     << " target-duration=" << TARGET_DURATION;
   
   return str.str();
@@ -162,7 +163,7 @@ bool HttpImplementation::init(void) {
   gst_app_src_set_caps(GST_APP_SRC(appsrc), caps);
   
   // Added:
-  g_object_set (appsrc, "format", GST_FORMAT_TIME, NULL);
+  g_object_set (G_OBJECT(appsrc), "format", GST_FORMAT_TIME, NULL);
   gst_app_src_set_stream_type(GST_APP_SRC(appsrc), GST_APP_STREAM_TYPE_STREAM);
 
   gst_object_unref (appsrc);
