@@ -7,13 +7,15 @@
 #include <sstream>
 #include <iostream>
 #include <cstring>
+#include <cstdio>             // remove(file)
 
 #include <gst/gst.h>
 #include <gst/app/gstappsrc.h>
 #include <gst/video/video.h>
 
-const int MAX_FILES = 5;
-const int TARGET_DURATION = 30;
+const int TARGET_DURATION = 10; // Each TS-segment is TARGET_DURATION seconds length
+const int MAX_FILES = 10;       // Max amount of TS-files allowed
+
 const std::string HTTP_GST_PIPELINE =
   "appsrc name=appsource is-live=true "
   "! videoconvert "
@@ -39,6 +41,9 @@ std::string getHttpPipeline(const Options &options) {
   str << " playlist-location=" << options.getPlaylistLocation()
     << " location=" << options.getSegmentsLocation()
     << " target-duration=" << TARGET_DURATION;
+  
+  // playlist-length: max number of entries in the .m3u8 file
+  //  intended to match max-files?
   
   return str.str();
 }
@@ -203,6 +208,11 @@ void HttpImplementation::run(void) {
 
   running = true;
 
+  // Get rid of stale playlist to prevent clients from being confused
+  if (!options.getPlaylistLocation().empty())
+    remove(options.getPlaylistLocation().c_str());
+    
+  offset = 0;
   g_timer_start(timer);
   gst_element_set_state(GST_ELEMENT(pipeline), GST_STATE_PLAYING);
   g_main_loop_run (loop);
@@ -249,8 +259,19 @@ void HttpImplementation::feed (GstAppSrc *appsrc, guint size) {
 
     gst_buffer_unref (buffer);
     
-    if (offset % (options.getFps() * TARGET_DURATION) == 1) {
-      // Prevent TS-segments from being pushed too fast
+    int seglen = options.getFps() * TARGET_DURATION;
+    
+    // TS-segments are written on disk too fast and "is-live" option
+    //  of appsrc doesn't prevent this behaviour. As result, the server
+    //  is writing 100500'th segment on the disk while clients are watching
+    //  only the third one...
+    // Here is a workaround: make pause for segment duration before writing next segment.
+    if ((offset % seglen == 0) && (offset / seglen > 1)) {
+      // hlssink writes playlist.m3u8 file not before, but AFTER a segment
+      //  has been written on disk. So we let the first two segments be
+      //  written instantly (to make the playlist appear as soon as possible)
+      //  while making all the following segments to wait
+      
       while (g_timer_elapsed(timer, NULL) < TARGET_DURATION) {
         g_usleep(1000 * 200);
       }
