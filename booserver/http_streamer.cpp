@@ -171,6 +171,7 @@ bool HttpImplementation::init(void) {
   // Added:
   g_object_set (G_OBJECT(appsrc), "format", GST_FORMAT_TIME, NULL);
   gst_app_src_set_stream_type(GST_APP_SRC(appsrc), GST_APP_STREAM_TYPE_STREAM);
+//  gst_app_src_set_size(GST_APP_SRC(appsrc), builder->getSize() * 2);
 
   gst_object_unref (appsrc);
   timer = g_timer_new();
