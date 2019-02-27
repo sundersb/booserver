@@ -384,6 +384,12 @@ bool MainFrame::loadRule(Rule* rule) {
     if (rule->getFrom().isValid()) {
       cbxFrom->SetValue(true);
       dpFrom->Enable(true);
+      
+      // Bug in wxWidgets 3.1:
+      // wxDatePickerCtrl considers it must show local date-time,
+      // but getter/setter takes wxDateTime in UTC.
+      // So one must convert wxDateTime to UTC before SetValue() and
+      // from UTC after GetValue().
       wxDateTime d(rule->getFrom().asUnixTime());
       d.MakeUTC();
       dpFrom->SetValue(d);
