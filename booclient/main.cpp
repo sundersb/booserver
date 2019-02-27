@@ -488,9 +488,17 @@ bool MainFrame::saveDoctor(void) {
   if (m_doctor) {
     // Put the doctor's model in accordanse to the controls
     long index = findItem(lbxDoctors, m_doctor);
-    m_doctor->setName(std::string(edTitle->GetValue().mb_str(wxConvUTF8)));
+    
+    // Try to prevent timetable from accidentally erased name or study:
+    wxString name = edTitle->GetValue();
+    if (!name.empty())
+      m_doctor->setName(std::string(name.mb_str(wxConvUTF8)));
+
+    name = edStudy->GetValue();
+    if (!name.empty())
+      m_doctor->setStudy(std::string(name.mb_str(wxConvUTF8)));
+      
     m_doctor->setFullName(std::string(edName->GetValue().mb_str(wxConvUTF8)));
-    m_doctor->setStudy(std::string(edStudy->GetValue().mb_str(wxConvUTF8)));
     m_doctor->setDuty(std::string(edPosition->GetValue().mb_str(wxConvUTF8)));
     m_doctor->setInstitute(std::string(edInstitute->GetValue().mb_str(wxConvUTF8)));
     m_doctor->setCertificate(std::string(edCertificate->GetValue().mb_str(wxConvUTF8)));
@@ -504,7 +512,7 @@ bool MainFrame::saveDoctor(void) {
     } else {
       // Update doctor timetable's title on the listbox
       if (m_doctor->isDirty() && index != wxNOT_FOUND) {
-        lbxDoctors->SetString(index, edTitle->GetValue());
+        lbxDoctors->SetString(index, wxString(m_doctor->getName().c_str(), wxConvUTF8));
       }
     }
   }
