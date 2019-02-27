@@ -95,6 +95,13 @@ void Canvas::horizontal(const RGB &color, int y, int x0, int x1) {
   }
 }
 
+void Canvas::box(const RGB &color, const Rect &rect) {
+  horizontal(color, rect.y0, rect.x0, rect.x1);
+  horizontal(color, rect.y1, rect.x0, rect.x1);
+  vertical(color, rect.x0, rect.y0, rect.y1);
+  vertical(color, rect.x1, rect.y0, rect.y1);
+}
+
 void Canvas::fillBox(const RGB &color, const Rect &rect) {
   Rect clip(rect);
   if (clip.x0 > clip.x1) std::swap(clip.x0, clip.x1);

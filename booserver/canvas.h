@@ -87,6 +87,13 @@ namespace image {
      * @param x1        X position of the line end
      */
     void horizontal(const RGB &color, int y, int x0, int x1);
+    
+    /**
+     * @brief               Draw rectangle
+     * @param color     Border color
+     * @param rect      Boxes position and size
+     */
+    void box(const RGB &color, const Rect &rect);
 
     /**
      * @brief               Draw a box filled with the given color
