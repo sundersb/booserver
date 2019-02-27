@@ -50,3 +50,10 @@ inline int getInt(MYSQL_ROW row, int fieldNum) {
   else
     return -1;
 }
+
+inline std::string getString(const char *value) {
+  if (value)
+    return std::string(value);
+  else
+    return "???";
+}

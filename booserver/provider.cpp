@@ -153,8 +153,8 @@ void fillDoctors(MySqlConnection &conn, std::vector<sdoctor> &docs, const profil
   if (!res) return;
   while (MYSQL_ROW row = mysql_fetch_row(res.get())) {
     docs.push_back({
-      std::string(row[0]),
-      std::string(row[1]),
+      getString(row[0]),
+      getString(row[1]),
       getInt(row, 2)
     });
   }
@@ -215,37 +215,34 @@ Profiles ProviderImpl::getPage(int page) {
     wstart.discardTime();
     wstart.incDay(-wstart.getWeekDay());
 
-    MySqlConnection conn;
-    if (conn.init(server, database, user, password)) {
-      // For each profile on the page
-      for (const profile &prof : ps) {
-        result.emplace_back(prof.title);
-        std::vector<sdoctor> docs;
-        fillDoctors(conn, docs, prof);
-        
-        // For each doctor in the profile
-        for (auto doc : docs) {
-          timetable::Doctor doctor(doc.name, doc.study);
-          std::vector<TypicalDay> days;
-          fillRules(conn, days, doc);
+    // For each profile on the page
+    for (const profile &prof : ps) {
+      result.emplace_back(prof.title);
+      std::vector<sdoctor> docs;
+      fillDoctors(connection, docs, prof);
+      
+      // For each doctor in the profile
+      for (auto doc : docs) {
+        timetable::Doctor doctor(doc.name, doc.study);
+        std::vector<TypicalDay> days;
+        fillRules(connection, days, doc);
 
-          // For each day of the current week
-          DateTime date(wstart);
-          for (int i = 0; i < 7; ++i) {
-            std::vector<TypicalDay>::const_iterator day = std::find_if(days.begin(),
-              days.end(),
-              std::bind(dayFits, date, std::placeholders::_1));
+        // For each day of the current week
+        DateTime date(wstart);
+        for (int i = 0; i < 7; ++i) {
+          std::vector<TypicalDay>::const_iterator day = std::find_if(days.begin(),
+            days.end(),
+            std::bind(dayFits, date, std::placeholders::_1));
 
-            if (day != days.end()) {
-              doctor[(timetable::Weekdays)i].title = day->title;
-            } else {
-              doctor[(timetable::Weekdays)i].title = "-";
-            }
-            date.incDay(1);
+          if (day != days.end()) {
+            doctor[(timetable::Weekdays)i].title = day->title;
+          } else {
+            doctor[(timetable::Weekdays)i].title = "-";
           }
-          
-          result.back().addDoctor(std::move(doctor));
+          date.incDay(1);
         }
+        
+        result.back().addDoctor(std::move(doctor));
       }
     }
   }
@@ -263,7 +260,7 @@ bool ProviderImpl::loadProfiles(std::list<profile> &profiles) {
   while (MYSQL_ROW row = mysql_fetch_row(res.get())) {
     profiles.push_back({
       getInt(row, 0),
-      std::string(row[1]),
+      getString(row[1]),
       getInt(row, 2),
       0
     });
