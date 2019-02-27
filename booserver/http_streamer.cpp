@@ -249,7 +249,7 @@ void HttpImplementation::feed (GstAppSrc *appsrc, guint size) {
 
     gst_buffer_unref (buffer);
     
-    if (offset % (options.getFps() * TARGET_DURATION) == 0) {
+    if (offset % (options.getFps() * TARGET_DURATION) == 1) {
       // Prevent TS-segments from being pushed too fast
       while (g_timer_elapsed(timer, NULL) < TARGET_DURATION) {
         g_usleep(1000 * 200);
