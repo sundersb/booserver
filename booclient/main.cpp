@@ -385,6 +385,7 @@ bool MainFrame::loadRule(Rule* rule) {
       cbxFrom->SetValue(true);
       dpFrom->Enable(true);
       wxDateTime d(rule->getFrom().asUnixTime());
+      d.MakeUTC();
       dpFrom->SetValue(d);
     } else {
       cbxFrom->SetValue(false);
@@ -395,6 +396,7 @@ bool MainFrame::loadRule(Rule* rule) {
       cbxTill->SetValue(true);
       dpTill->Enable(true);
       wxDateTime d(rule->getTill().asUnixTime());
+      d.MakeUTC();
       dpTill->SetValue(d);
     } else {
       cbxTill->SetValue(false);
@@ -431,22 +433,14 @@ bool MainFrame::saveRule(void) {
   m_rule->setTitle(std::string(edRuleTitle->GetValue().mb_str(wxConvUTF8)));
 
   if (cbxFrom->GetValue()) {
-    DateTime newDate(dpFrom->GetValue().GetTicks());
-#ifndef WIN32
-    // TODO: Check timezone on Windows
-    // Date slips backwards because of timezone on Linux
-    newDate.fromUTC();
-#endif
+    DateTime newDate(dpFrom->GetValue().MakeFromUTC().GetTicks());
     m_rule->setFrom(newDate);
   } else {
     m_rule->setFrom(DateTime());
   }
 
   if (cbxTill->GetValue()) {
-    DateTime newDate(dpTill->GetValue().GetTicks());
-#ifndef WIN32
-    newDate.fromUTC();
-#endif
+    DateTime newDate(dpTill->GetValue().MakeFromUTC().GetTicks());
     m_rule->setTill(newDate);
   } else {
     m_rule->setTill(DateTime());
