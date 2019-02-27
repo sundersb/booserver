@@ -5,6 +5,7 @@
 #include "profile.h"
 #include "options.h"
 #include <vector>
+#include <array>
 
 /**
  * @class TimetableScreenBuilder
@@ -35,13 +36,7 @@ class TimetableScreenBuilder {
   std::string title_name;
   std::string title_study;
   std::string title_no_time;
-  std::string title_monday;
-  std::string title_tuesday;
-  std::string title_wednesday;
-  std::string title_thursday;
-  std::string title_fryday;
-  std::string title_saturday;
-  std::string title_sunday;
+  std::array<std::string, 7> weekdays;
   std::string title_testing;
 
   TimetableScreenBuilder(TimetableScreenBuilder&) = delete;

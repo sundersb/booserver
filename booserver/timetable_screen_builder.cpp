@@ -1,4 +1,5 @@
 #include "timetable_screen_builder.h"
+#include "date.h"
 #include <iostream>
 #include <sstream>
 #include <assert.h>
@@ -22,15 +23,15 @@ TimetableScreenBuilder::TimetableScreenBuilder(const Options &options):
   title_name(options.getTitleName()),
   title_study(options.getTitleStudy()),
   title_no_time(options.getTitleNoTime()),
-  title_monday(options.getTitleMonday()),
-  title_tuesday(options.getTitileTuesday()),
-  title_wednesday(options.getTitleWednesday()),
-  title_thursday(options.getTitleThursday()),
-  title_fryday(options.getTitleFryday()),
-  title_saturday(options.getTitleSaturday()),
-  title_sunday(options.getTitleSunday()),
   title_testing(options.getTitleTesting())
 {
+  weekdays[0] = options.getTitleMonday();
+  weekdays[1] = options.getTitileTuesday();
+  weekdays[2] = options.getTitleWednesday();
+  weekdays[3] = options.getTitleThursday();
+  weekdays[4] = options.getTitleFryday();
+  weekdays[5] = options.getTitleSaturday();
+  weekdays[6] = options.getTitleSunday();
 }
 
 bool TimetableScreenBuilder::init(void) {
@@ -39,7 +40,7 @@ bool TimetableScreenBuilder::init(void) {
   int fsize = line_height;
   return font_title.init(font_file, fsize, 72)
     && font_caption.init(font_file, fsize * 3 / 5, 72)
-    && font_text.init(font_file, fsize * 8 / 19, 72);
+    && font_text.init(font_file, fsize / 2, 72);
 }
 
 TimetableScreenBuilder::~TimetableScreenBuilder() {}
@@ -51,6 +52,12 @@ unsigned char* TimetableScreenBuilder::getPixels(void) { return canvas.getPixels
 int TimetableScreenBuilder::getWidth(void) const { return canvas.getWidth(); }
 int TimetableScreenBuilder::getHeight(void) const { return canvas.getHeight(); }
 int TimetableScreenBuilder::getSize(void) const { return canvas.getSize(); }
+
+int getTodaysWeekday(void) {
+  DateTime wstart;
+  wstart.setNow();
+  return wstart.getWeekDay();
+}
 
 void TimetableScreenBuilder::build(const Profiles &ps, int page, int pageCount) {
   int y = ps.size() * 3 + 1;
@@ -65,6 +72,7 @@ void TimetableScreenBuilder::build(const Profiles &ps, int page, int pageCount) 
   int dy = y;
 
   canvas.clear(color_clear);
+  int twd = getTodaysWeekday();
 
   for (const timetable::Profile &profile : ps) {
     image::Rect rect = { 0, y, canvas.getWidth() - 1, y + line_height * 2};
@@ -110,6 +118,13 @@ void TimetableScreenBuilder::build(const Profiles &ps, int page, int pageCount) 
         rect.y1);
     }
 
+    // Today's title
+    rect.y0 = y + line_height * 2 + 5;
+    rect.y1 = y + line_height * 3 - 5;
+    rect.x0 = title_width + study_width + twd * day_width + 5;
+    rect.x1 = rect.x0 + day_width - 10;
+    canvas.box(header_face, rect);
+
     // Table titles
     //  Doctor
     rect.y0 = y + line_height * 2 + 1;
@@ -123,34 +138,15 @@ void TimetableScreenBuilder::build(const Profiles &ps, int page, int pageCount) 
     rect.x1 = title_width + study_width - 1;
     canvas.textOut(title_study, font_caption, header_face, rect, true);
 
+    // Weekday names
     rect.x0 = title_width + study_width;
     rect.x1 = rect.x0 + day_width;
-    canvas.textOut(title_monday, font_caption, header_face, rect, true);
-
-    rect.x0 += day_width;
-    rect.x1 += day_width;
-    canvas.textOut(title_tuesday, font_caption, header_face, rect, true);
-
-    rect.x0 += day_width;
-    rect.x1 += day_width;
-    canvas.textOut(title_wednesday, font_caption, header_face, rect, true);
-
-    rect.x0 += day_width;
-    rect.x1 += day_width;
-    canvas.textOut(title_thursday, font_caption, header_face, rect, true);
-
-    rect.x0 += day_width;
-    rect.x1 += day_width;
-    canvas.textOut(title_fryday, font_caption, header_face, rect, true);
-
-    rect.x0 += day_width;
-    rect.x1 += day_width;
-    canvas.textOut(title_saturday, font_caption, header_face, rect, true);
-
-    rect.x0 += day_width;
-    rect.x1 += day_width;
-    canvas.textOut(title_sunday, font_caption, header_face, rect, true);
-
+    for(const std::string &wd : weekdays) {
+      canvas.textOut(wd, font_caption, header_face, rect, true);
+      rect.x0 += day_width;
+      rect.x1 += day_width;
+    }
+    
     // Doctors
     rect.y0 = y + line_height * 3 + 1;
     rect.y1 = y + line_height * 4 - 1;
