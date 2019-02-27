@@ -212,6 +212,7 @@ Profiles ProviderImpl::getPage(int page) {
     // Get beginning of the week
     DateTime wstart;
     wstart.setNow();
+    wstart.fromUTC();
     wstart.discardTime();
     wstart.incDay(-wstart.getWeekDay());
 

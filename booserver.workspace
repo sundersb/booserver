@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Workspace Name="booserver" Database="" Version="10.0.0">
-  <Project Name="booserver" Path="booserver/booserver.project" Active="No"/>
+  <Project Name="booserver" Path="booserver/booserver.project" Active="Yes"/>
   <Project Name="testimages" Path="booserver/testimages.project" Active="No"/>
   <Project Name="testttable" Path="booserver/testttable.project" Active="No"/>
   <Project Name="testoptions" Path="booserver/testoptions.project" Active="No"/>
-  <Project Name="booclient" Path="booclient/booclient.project" Active="Yes"/>
+  <Project Name="booclient" Path="booclient/booclient.project" Active="No"/>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>

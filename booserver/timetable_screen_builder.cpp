@@ -56,6 +56,7 @@ int TimetableScreenBuilder::getSize(void) const { return canvas.getSize(); }
 int getTodaysWeekday(void) {
   DateTime wstart;
   wstart.setNow();
+  wstart.fromUTC();
   return wstart.getWeekDay();
 }
 
