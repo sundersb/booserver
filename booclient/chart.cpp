@@ -38,6 +38,7 @@ Chart::Chart():
 {
   // Set on the current week's beginning
   monday.setNow();
+  monday.fromUTC();
   monday.discardTime();
   int wd = monday.getWeekDay();
   monday.incDay(-wd);
