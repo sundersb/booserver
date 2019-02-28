@@ -209,7 +209,10 @@ void MainFrame::OnRuleAdd( wxCommandEvent& event ) {
     wxEmptyString,
     this);
 
-  if (name.empty()) return;
+  if (name.empty()) {
+    wxMessageBox(_("Rule's name shouldn't be empty!"), _("Rule Name Empty"));
+    return;
+  }
 
   Rule *rule = new Rule(0, m_doctor->getId(), 0, std::string(name.mb_str(wxConvUTF8)));
 
@@ -223,6 +226,7 @@ void MainFrame::OnRuleAdd( wxCommandEvent& event ) {
     rules.push_back(rule);
 
     long index = lRules->InsertItem(rules.size(), name);
+    lRules->SetItemPtrData(index, reinterpret_cast<wxUIntPtr>(rule));
     lRules->SetItem(index, 1, wxT("?"));
     lRules->SetItem(index, 2, wxT("-"));
     lRules->SetItemState(index, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
