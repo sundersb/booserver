@@ -70,6 +70,7 @@ protected:
   virtual void OnDeptAdd( wxCommandEvent& event );
   virtual void OnDeptRemove( wxCommandEvent& event );
   virtual void OnDeptRename( wxCommandEvent& event );
+  virtual void DeptMove( wxCommandEvent& event );
   virtual void OnDoctorAdd( wxCommandEvent& event );
   virtual void OnRuleAdd( wxCommandEvent& event );
   virtual void OnRuleRemove( wxCommandEvent& event );

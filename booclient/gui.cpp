@@ -456,6 +456,8 @@ frmMain::frmMain (wxWindow* parent, wxWindowID id, const wxString& title, const 
 	chProfile->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( frmMain::ProfileSelected ), NULL, this );
 	btnDeptAdd->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frmMain::OnDeptAdd ), NULL, this );
 	btnDeptRemove->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frmMain::OnDeptRemove ), NULL, this );
+  btnDeptUp->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frmMain::DeptMove ), NULL, this );
+	btnDeptDown->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frmMain::DeptMove ), NULL, this );
 	btnDeptRename->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frmMain::OnDeptRename ), NULL, this );
 	btnDoctorAdd->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frmMain::OnDoctorAdd ), NULL, this );
 	lbxDoctors->Connect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( frmMain::DoctorSelected ), NULL, this );

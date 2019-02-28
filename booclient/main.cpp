@@ -603,3 +603,32 @@ void MainFrame::updateImage(void) {
     bmpWeek->SetBitmap(chart.get(rules));
   }
 }
+
+void MainFrame::DeptMove( wxCommandEvent& event ) {
+  int index = chProfile->GetSelection();
+  if (index == wxNOT_FOUND) return;
+  
+  int new_index = index - 1;
+  if (event.GetId() == btnDeptDown->GetId()) new_index = index + 1;
+  
+  if (new_index < 0 || new_index >= (int)chProfile->GetCount()) return;
+  
+  Profile *current = static_cast<Profile*>(chProfile->GetClientData(index));
+  Profile *other = static_cast<Profile*>(chProfile->GetClientData(new_index));
+  assert(current && other);
+  
+  int dummy = other->getNumber();
+  other->setNumber(current->getNumber());
+  current->setNumber(dummy);
+  
+  if (!repo->saveProfile(current) || !repo->saveProfile(other)) return;
+  
+  wxString title = chProfile->GetString(index);
+  chProfile->SetString(index, chProfile->GetString(new_index));
+  chProfile->SetString(new_index, title);
+  
+  chProfile->SetClientData(index, other);
+  chProfile->SetClientData(new_index, current);
+  
+  chProfile->SetSelection(new_index);
+}
