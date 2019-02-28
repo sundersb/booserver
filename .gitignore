@@ -1,0 +1,16 @@
+*~
+.codelite/
+Arch/
+bin/
+lib/
+Debug/
+Release/
+*.mo
+*.bak
+*.mk
+[Mm]akefile
+booclient.txt
+booserver.txt
+testimages.txt
+testoptions.txt
+testttable.txt
