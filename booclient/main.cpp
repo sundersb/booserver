@@ -34,9 +34,6 @@ MainFrame::MainFrame(wxWindow *parent):
  m_rule(nullptr),
  chart()
 {
-  // Not working somehow
-  // TODO: Icon for Linux
-  //SetIcon(wxICON("icon"));
   bmpWeek->SetBitmap(chart.get());
   Layout();
 }

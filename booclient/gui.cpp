@@ -123,7 +123,6 @@ frmMain::frmMain (wxWindow* parent, wxWindowID id, const wxString& title, const 
 
 	splMain = new wxSplitterWindow( pnlMain, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D );
 	splMain->SetSashGravity( 0 );
-	splMain->SetSashSize( 0 );
 	splMain->Connect( wxEVT_IDLE, wxIdleEventHandler( frmMain::splMainOnIdle ), NULL, this );
 	splMain->SetMinimumPaneSize( 200 );
 
@@ -487,6 +486,8 @@ frmMain::~frmMain()
 	btnDeptAdd->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frmMain::OnDeptAdd ), NULL, this );
 	btnDeptRemove->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frmMain::OnDeptRemove ), NULL, this );
 	btnDeptRename->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frmMain::OnDeptRename ), NULL, this );
+  btnDeptUp->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frmMain::DeptMove ), NULL, this );
+	btnDeptDown->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frmMain::DeptMove ), NULL, this );
 	btnDoctorAdd->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frmMain::OnDoctorAdd ), NULL, this );
 	lbxDoctors->Disconnect( wxEVT_COMMAND_LISTBOX_SELECTED, wxCommandEventHandler( frmMain::DoctorSelected ), NULL, this );
 	btnRuleAdd->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( frmMain::OnRuleAdd ), NULL, this );
@@ -496,5 +497,4 @@ frmMain::~frmMain()
 	cbxFrom->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( frmMain::OnFromChecked ), NULL, this );
 	cbxTill->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( frmMain::OnTillChecked ), NULL, this );
 	chWeekDay->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( frmMain::WeekdayChanged ), NULL, this );
-
 }

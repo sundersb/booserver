@@ -44,6 +44,7 @@ bool MainApp::OnInit() {
 
       frame->setRepository(repo);
       SetTopWindow(frame);
+      frame->SetIcon(wxICON(icon));
       frame->Show();
       frame->load();
       return true;
