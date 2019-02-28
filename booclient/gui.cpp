@@ -170,6 +170,19 @@ frmMain::frmMain (wxWindow* parent, wxWindowID id, const wxString& title, const 
 
 	bsProfileButtons->Add( btnDeptRename, 0, wxALL, 2 );
 
+	btnDeptUp = new wxBitmapButton( pnlLeft, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW|0 );
+
+	btnDeptUp->SetBitmap( wxBITMAP_PNG(icoup));
+	btnDeptUp->SetToolTip( _("Move department up") );
+
+	bsProfileButtons->Add( btnDeptUp, 0, wxALL, 2 );
+
+	btnDeptDown = new wxBitmapButton( pnlLeft, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW|0 );
+
+	btnDeptDown->SetBitmap( wxBITMAP_PNG(icodown));
+	btnDeptDown->SetToolTip( _("Move department down") );
+
+	bsProfileButtons->Add( btnDeptDown, 0, wxALL, 2 );
 
 	bsProfileButtons->Add( 10, 0, 0, wxEXPAND, 5 );
 

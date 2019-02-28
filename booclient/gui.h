@@ -68,6 +68,8 @@ class frmMain : public wxFrame
 		wxBitmapButton* btnDeptAdd;
 		wxBitmapButton* btnDeptRemove;
 		wxBitmapButton* btnDeptRename;
+		wxBitmapButton* btnDeptUp;
+		wxBitmapButton* btnDeptDown;
 		wxBitmapButton* btnDoctorAdd;
 		wxListBox* lbxDoctors;
 		wxPanel* pnlRight;
@@ -78,7 +80,6 @@ class frmMain : public wxFrame
 		wxBitmapButton* btnRuleRemove;
 		wxBitmapButton* btnRuleUp;
 		wxBitmapButton* btnRuleDown;
-//		wxGrid* sgRules;
 		wxListCtrl* lRules;
 		wxPanel* pnlRule;
 		wxStaticText* lblRuleName;
@@ -124,6 +125,7 @@ class frmMain : public wxFrame
 		virtual void OnRuleRemove( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnlyActiveClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ProfileSelected( wxCommandEvent& event ) { event.Skip(); }
+		virtual void DeptMove( wxCommandEvent& event ) { event.Skip(); }
 		virtual void DoctorSelected( wxCommandEvent& event ) { event.Skip(); }
 		virtual void RuleMove( wxCommandEvent& event ) { event.Skip(); }
     virtual void RuleItemSelected( wxListEvent& event ) { event.Skip(); }
