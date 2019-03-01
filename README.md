@@ -127,7 +127,7 @@ If nothing is shown it is possible gstreamer failed to found some plugin. Try to
 
 There are several initialization systems on Linux. We'll discuss here OpenRC. It is used by [Alpine Linux](https://alpinelinux.org/) - great OS for server systems whichever service they should provide.
 
-Supposing we have copied binary and configuration files of the server to /opt/booserver/. Now you have to create file /etc/init.d with this content:
+Supposing we have copied binary and configuration files of the server to /opt/booserver/. Now you have to create file /etc/init.d/booserver with this content:
 
 ```
 #!/sbin/openrc-run

@@ -83,7 +83,12 @@ class ProviderImpl {
   
   Pages pages;
   
+  // Try to run query and reconnect if connection is broken
+  std::shared_ptr<MYSQL_RES> tryQuery(const std::string &sql);
+
   bool loadProfiles(std::list<profile> &profiles);
+  void fillDoctors(std::vector<sdoctor> &docs, const profile &prof);
+  void fillRules (std::vector<TypicalDay> &days, const sdoctor &doc);
 public:
   ProviderImpl(int linesCount, int headerLines);
 
@@ -147,10 +152,31 @@ bool dayFits(const DateTime &date, const TypicalDay &day) {
   return true;
 }
 
+
+//           ProviderImpl
+// *******************************************
+
+std::shared_ptr<MYSQL_RES> ProviderImpl::tryQuery(const std::string &sql) {
+//  std::shared_ptr<MYSQL_RES> res = connection.query(sql);
+//
+//  if (!res && connection.init(server, database, user, password)) {
+//    res = connection.query(sql);
+//  }
+//  
+//  return res;
+  
+  // or
+  if (connection.init(server, database, user, password))
+    return connection.query(sql);
+  else
+    return nullptr;
+}
+
 // Priming list of doctors for the profile
-void fillDoctors(MySqlConnection &conn, std::vector<sdoctor> &docs, const profile &prof) {
-  std::shared_ptr<MYSQL_RES> res = conn.query(getSelectDoctorsQuery(prof));
+void ProviderImpl::fillDoctors(std::vector<sdoctor> &docs, const profile &prof) {
+  std::shared_ptr<MYSQL_RES> res = tryQuery(getSelectDoctorsQuery(prof));
   if (!res) return;
+  
   while (MYSQL_ROW row = mysql_fetch_row(res.get())) {
     docs.push_back({
       getString(row[0]),
@@ -161,9 +187,8 @@ void fillDoctors(MySqlConnection &conn, std::vector<sdoctor> &docs, const profil
 }
 
 // Get typed day rules for the doctor's timetable
-void fillRules (MySqlConnection &conn, std::vector<TypicalDay> &days, const sdoctor &doc) {
-  std::string query = getSelectRulesQuery(doc.doctor_id);
-  std::shared_ptr<MYSQL_RES> res = conn.query(query);
+void ProviderImpl::fillRules (std::vector<TypicalDay> &days, const sdoctor &doc) {
+  std::shared_ptr<MYSQL_RES> res = tryQuery(getSelectRulesQuery(doc.doctor_id));
   if (!res) return;
   
   while (MYSQL_ROW row = mysql_fetch_row(res.get())) {
@@ -184,9 +209,6 @@ void fillRules (MySqlConnection &conn, std::vector<TypicalDay> &days, const sdoc
   }
 }
 
-
-//           ProviderImpl
-// *******************************************
 ProviderImpl::ProviderImpl(int linesCount, int headerLines):
   connection(),
   linesCount(linesCount),
@@ -220,13 +242,13 @@ Profiles ProviderImpl::getPage(int page) {
     for (const profile &prof : ps) {
       result.emplace_back(prof.title);
       std::vector<sdoctor> docs;
-      fillDoctors(connection, docs, prof);
+      fillDoctors(docs, prof);
       
       // For each doctor in the profile
       for (auto doc : docs) {
         timetable::Doctor doctor(doc.name, doc.study);
         std::vector<TypicalDay> days;
-        fillRules(connection, days, doc);
+        fillRules(days, doc);
 
         // For each day of the current week
         DateTime date(wstart);

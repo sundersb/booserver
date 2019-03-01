@@ -17,6 +17,8 @@ bool MySqlConnection::init(const std::string &host,
   const std::string &user,
   const std::string &pass)
 {
+  if (conn) mysql_close(conn);
+  
   conn = mysql_init(nullptr);
   if (!conn) return false;
   
