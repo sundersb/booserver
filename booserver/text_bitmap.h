@@ -19,6 +19,7 @@ class TextBitmap {
   TextBitmap(TextBitmap&) = delete;
   void operator=(TextBitmap&) = delete;
 public:
+  
   /**
    * @brief           Ctor
    * @param w         Image width

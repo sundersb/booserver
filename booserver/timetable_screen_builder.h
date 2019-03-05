@@ -16,6 +16,7 @@
  */
 class TimetableScreenBuilder {
   image::Canvas canvas;
+  unsigned char* background;
   int line_height;
   int title_width;
   int study_width;
@@ -38,6 +39,7 @@ class TimetableScreenBuilder {
   std::string title_no_time;
   std::array<std::string, 7> weekdays;
   std::string title_testing;
+  std::string bg_image_file;
 
   TimetableScreenBuilder(TimetableScreenBuilder&) = delete;
   void operator=(TimetableScreenBuilder&) = delete;

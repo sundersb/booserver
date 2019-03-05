@@ -124,6 +124,14 @@ namespace image {
      * above this one without blending
      */
     void blendImage(const unsigned char *src, unsigned factor);
+    
+    /**
+     * @brief               Copy image onto canvas
+     * @param src       Data of the image to copy
+     * 
+     * Source image must have the same size as this one.
+     */
+    void copy(const unsigned char *src);
   };
 
   /**

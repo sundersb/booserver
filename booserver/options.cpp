@@ -81,6 +81,7 @@ Options::Options():
   title_saturday(DEFAULT_TITLE_SATURDAY),
   title_sunday(DEFAULT_TITLE_SUNDAY),
   title_testing(DEFAULT_TITLE_TESTING),
+  bg_image_file(),
   clear_color(COLOR_CLEAR),
   title_face(COLOR_TITLE),
   header_back(COLOR_ORANGE),
@@ -205,6 +206,7 @@ bool Options::load(const std::string &fileName) {
   mpx["title_saturday"] = { &title_saturday, TYPE_STRING };
   mpx["title_sunday"] = { &title_sunday, TYPE_STRING };
   mpx["title_testing"] = { &title_testing, TYPE_STRING };
+  mpx["background_image"] = { &bg_image_file, TYPE_STRING };
   mpx["color_clear"] = { &clear_color, TYPE_COLOR };
   mpx["color_title_face"] = { &title_face, TYPE_COLOR };
   mpx["color_header_back"] = { &header_back, TYPE_COLOR };

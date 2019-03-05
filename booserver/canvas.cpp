@@ -217,6 +217,10 @@ void Canvas::blendImage(const unsigned char *src, unsigned factor) {
   blend(pixels, src, size, factor);
 }
 
+void Canvas::copy(const unsigned char *src) {
+  memmove(pixels, src, size);
+}
+
 void blend(unsigned char *dest, const unsigned char *src, int size, unsigned factor) {
   if (!factor) return;
 

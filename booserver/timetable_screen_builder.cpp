@@ -1,11 +1,14 @@
 #include "timetable_screen_builder.h"
 #include "date.h"
+#include "png_saver.h"
 #include <iostream>
 #include <sstream>
+#include <cstring>
 #include <assert.h>
 
 TimetableScreenBuilder::TimetableScreenBuilder(const Options &options):
   canvas(options.getWidth(), options.getHeight()),
+  background(nullptr),
   line_height(options.getHeight() / options.getLines()),
   title_width(options.getWidth() / 5),
   study_width(options.getWidth() / 14),
@@ -23,7 +26,8 @@ TimetableScreenBuilder::TimetableScreenBuilder(const Options &options):
   title_name(options.getTitleName()),
   title_study(options.getTitleStudy()),
   title_no_time(options.getTitleNoTime()),
-  title_testing(options.getTitleTesting())
+  title_testing(options.getTitleTesting()),
+  bg_image_file(options.getBacgroundImageFile())
 {
   weekdays[0] = options.getTitleMonday();
   weekdays[1] = options.getTitileTuesday();
@@ -37,13 +41,21 @@ TimetableScreenBuilder::TimetableScreenBuilder(const Options &options):
 bool TimetableScreenBuilder::init(void) {
   if (!canvas.init()) return false;
   
+  canvas.clear(color_clear);
+  if (!bg_image_file.empty()) png::drawPNG(bg_image_file, canvas);
+  
+  background = new unsigned char [canvas.getSize()];
+  memmove(background, canvas.getPixels(), canvas.getSize());
+  
   int fsize = line_height;
   return font_title.init(font_file, fsize, 72)
     && font_caption.init(font_file, fsize * 3 / 5, 72)
     && font_text.init(font_file, fsize / 2, 72);
 }
 
-TimetableScreenBuilder::~TimetableScreenBuilder() {}
+TimetableScreenBuilder::~TimetableScreenBuilder() {
+  delete [] background;
+}
 
 image::Canvas& TimetableScreenBuilder::getCanvas(void) { return canvas; }
 const unsigned char* TimetableScreenBuilder::getPixels(void) const { return canvas.getPixels(); }
@@ -72,7 +84,8 @@ void TimetableScreenBuilder::build(const Profiles &ps, int page, int pageCount) 
   // Vertical distance between timetable profiles
   int dy = y;
 
-  canvas.clear(color_clear);
+  canvas.copy(background);
+  
   int twd = getTodaysWeekday();
 
   for (const timetable::Profile &profile : ps) {

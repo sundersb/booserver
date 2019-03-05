@@ -34,6 +34,7 @@ class Options {
   std::string title_saturday;
   std::string title_sunday;
   std::string title_testing;
+  std::string bg_image_file;
   image::RGB clear_color;
   image::RGB title_face;
   image::RGB header_back;
@@ -77,6 +78,7 @@ public:
   const std::string& getTitleSaturday(void) const { return title_saturday; }
   const std::string& getTitleSunday(void) const { return title_sunday; }
   const std::string& getTitleTesting(void) const { return title_testing; }
+  const std::string& getBacgroundImageFile(void) const { return bg_image_file; }
   
   const image::RGB& getClearColor(void) const { return clear_color; }
   const image::RGB& getTitleFace(void) const { return title_face; }
