@@ -1,4 +1,4 @@
-#include "png_saver.h"
+#include "png_files.h"
 #include <png.h>
 #include <memory>
 #include <cstring>
@@ -77,13 +77,12 @@ bool drawPNG (const std::string& fileName, image::Canvas &canvas) {
   png_uint_32 width = png_get_image_width(png_ptr, pinfo);
   png_uint_32 height = png_get_image_height(png_ptr, pinfo);
     
-  png_uint_32 bitdepth   = png_get_bit_depth(png_ptr, pinfo);
-  png_uint_32 channels   = png_get_channels(png_ptr, pinfo);
-  png_uint_32 color_type = png_get_color_type(png_ptr, pinfo);
+  if (png_get_bit_depth(png_ptr, pinfo) != 8) return false;
+  if (png_get_channels(png_ptr, pinfo) != 3) return false;
+  if (png_get_color_type(png_ptr, pinfo) != 2) return false;
   
-  if (canvas.getHeight() != height
-    || canvas.getWidth() != width
-    || canvas.getSize() != width * height * 3) return false;
+  if (canvas.getHeight() != (int) height
+    || canvas.getWidth() != (int) width) return false;
   
   png_bytepp row_pointers = png_get_rows(png_ptr, pinfo);
   

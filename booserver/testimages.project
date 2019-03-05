@@ -8,10 +8,10 @@
     <File Name="options.h"/>
     <File Name="options.cpp"/>
     <VirtualDirectory Name="image">
+      <File Name="png_files.h"/>
+      <File Name="png_files.cpp"/>
       <File Name="text_bitmap.h"/>
       <File Name="text_bitmap.cpp"/>
-      <File Name="png_saver.h"/>
-      <File Name="png_saver.cpp"/>
       <File Name="ftype.h"/>
       <File Name="ftype.cpp"/>
       <File Name="canvas.h"/>

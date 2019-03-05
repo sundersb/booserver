@@ -3,7 +3,7 @@
 #include <cstring>
 #include <sstream>
 #include "canvas.h"
-#include "png_saver.h"
+#include "png_files.h"
 #include "ftype.h"
 #include "timetable_screen_builder.h"
 #include "provider.h"
