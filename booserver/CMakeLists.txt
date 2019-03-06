@@ -7,8 +7,6 @@ set(PROJECT_VER_PATCH "1.0")
 
 set(PROJECT_VER "${PROJECT_VER_MAJOR}.${PROJECT_VER_MINOR}.${PROJECT_VER_PATCH}")
 
-#option (BOOTHECA_BUILD_LIBZ "Build libz library" ${WIN32})
-
 # C++ 14 required
 set (CMAKE_CXX_STANDARD 14)
 set (CMAKE_CXX_STANDARD_REQUIRED on)
@@ -23,11 +21,15 @@ file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 file(MAKE_DIRECTORY ${BOOSERVER_CONFIG_DIRECTORY})
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/../cmake/")  
+
+include(FindPkgConfig)
+if (NOT PKG_CONFIG_FOUND)
+  message(FATAL_ERROR "pkg-config not found")
+endif()
+
 find_package(MySQL REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(PkgConfig REQUIRED)
-
-#find_package(FindGStreamer)
 
 set (BOOSERVER_SOURCES
   ${CMAKE_CURRENT_SOURCE_DIR}/booserver.cpp
@@ -41,17 +43,26 @@ set (BOOSERVER_SOURCES
   ${CMAKE_CURRENT_SOURCE_DIR}/http_streamer.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/rtsp_streamer.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/options.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/png_files.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/profile.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/provider.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/text_bitmap.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/timetable_screen_builder.cpp)
   
 # Main binary
-add_executable (booserver WIN32 ${BOOSERVER_SOURCES})
+add_executable (booserver ${BOOSERVER_SOURCES})
 
-target_compile_definitions(booserver PRIVATE WINDOWS _WINDOWS UNICODE _UNICODE)
+if (WIN32)
+  target_compile_definitions(booserver PRIVATE
+    WINDOWS
+    _WINDOWS
+    UNICODE
+    _UNICODE)
+endif()
+
 #target_include_directories (booserver PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
+pkg_check_modules(LIBPNG libpng16 REQUIRED)
 pkg_check_modules(GST REQUIRED gstreamer-1.0
                                gstreamer-rtsp-server-1.0
                                gstreamer-video-1.0
@@ -60,35 +71,21 @@ pkg_check_modules(GST REQUIRED gstreamer-1.0
 target_compile_definitions(booserver PUBLIC "$<$<CONFIG:Debug>:DEBUG>")
 target_compile_options(booserver PRIVATE ${GST_CFLAGS})
 
-# Find relevant libs
-#if (WIN32)
-#    if (MSVC)
-#        set(CMAKE_FIND_LIBRARY_SUFFIXES ".lib")
-#    else (MSVC)
-#        set(CMAKE_FIND_LIBRARY_SUFFIXES ".dll" ".dll.a" ".a")
-#        target_compile_options(booclient PRIVATE -Wno-deprecated-declarations)
-#    endif (MSVC)
-#else(WIN32)
-#    set(CMAKE_FIND_LIBRARY_SUFFIXES ".so" ".a")
-#endif(WIN32)
-#
-#find_library(MYSQL_LIBRARY
-#    NAMES mysqlclient
-#    HINTS "lib"
-#)
-
 target_include_directories (booserver PRIVATE
   ${GST_INCLUDE_DIRS}
+  ${LIBPNG_INCLUDE_DIRS}
   ${FREETYPE_INCLUDE_DIRS}
   ${MYSQL_INCLUDE_DIR})
 
 target_link_libraries (booserver PRIVATE
   ${GST_LIBRARIES}
+  ${LIBPNG_LIBRARIES}
   ${FREETYPE_LIBRARY}
   ${MYSQL_LIBRARY})
 
+#message ("Install prefix: ${CMAKE_INSTALL_PREFIX}")
 message ("Gstreamer libs: ${GST_LIBRARIES}")
-message ("Install prefix: ${CMAKE_INSTALL_PREFIX}")
+message ("PNG libs: ${LIBPNG_LIBRARIES}")
 
 if (WIN32)
   set (BOOSERVER_INSTALL_BINARY_DIR ".")
@@ -112,6 +109,9 @@ install (FILES
   color_blue.conf
   color_brown.conf
   color_green.conf
+  color_grey.conf
+  color_slate.conf
+  color_pale_blue.conf
   DESTINATION ${BOOSERVER_INSTALL_CONFIG_DIR}
   COMPONENT data_files
   PERMISSIONS WORLD_READ OWNER_WRITE OWNER_READ GROUP_READ)
