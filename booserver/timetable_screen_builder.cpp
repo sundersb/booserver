@@ -136,12 +136,12 @@ void TimetableScreenBuilder::build(const Profiles &ps, int page, int pageCount) 
         rect.y1);
     }
 
-    // Today's title
-    rect.y0 = y + line_height * 2 + 5;
-    rect.y1 = y + line_height * 3 - 5;
-    rect.x0 = title_width + study_width + twd * day_width + 5;
-    rect.x1 = rect.x0 + day_width - 10;
-    canvas.box(header_face, rect);
+    // Today
+    rect.y0 = y + line_height * 2 + 1;
+    rect.y1 = y + line_height * (len + 3) - 1;
+    rect.x0 = title_width + study_width + twd * day_width + 1;
+    rect.x1 = rect.x0 + day_width - 2;
+    canvas.fillBoxBlended(line_odd, rect, 0xa0);
 
     // Table titles
     //  Doctor
