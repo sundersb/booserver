@@ -327,7 +327,7 @@ frmMain::frmMain (wxWindow* parent, wxWindowID id, const wxString& title, const 
 	lblWeek->Wrap( -1 );
 	fgRule->Add( lblWeek, 0, wxALIGN_BOTTOM|wxALL, 2 );
 
-	wxString chWeekChoices[] = { _("None"), _("First"), _("Second"), _("Third"), _("Fourth") };
+	wxString chWeekChoices[] = { _("None"), _("First"), _("Second"), _("Third"), _("Fourth"), _("Fifth") };
 	int chWeekNChoices = sizeof( chWeekChoices ) / sizeof( wxString );
 	chWeek = new wxChoice( pnlRule, wxID_ANY, wxDefaultPosition, wxDefaultSize, chWeekNChoices, chWeekChoices, 0 );
  	chWeek->SetMinSize( wxSize( 150,-1 ) );

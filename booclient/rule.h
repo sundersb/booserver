@@ -55,7 +55,7 @@ public:
   void setWeekday(int value);
 
   /**
-   * @brief         Weekday's occurence in the month (0 - 4)
+   * @brief         Weekday's occurence in the month (0 - 5)
    */
   int getWeek(void) const;
   void setWeek(int value);

@@ -137,9 +137,9 @@ void Rule::setWeekday(int value) {
 int Rule::getWeek(void) const { return wdaynum; }
 void Rule::setWeek(int value) {
   if (value < 0) value = 0;
-  else if (value > 4) {
-    value %= 4;
-    if (!value) value = 4;
+  else if (value > 5) {
+    value %= 5;
+    if (!value) value = 5;
   }
 
   if (value != wdaynum) {

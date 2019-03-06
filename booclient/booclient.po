@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: booclient\n"
-"POT-Creation-Date: 2019-02-28 10:24+1000\n"
-"PO-Revision-Date: 2019-02-28 10:26+1000\n"
+"POT-Creation-Date: 2019-03-06 14:40+1000\n"
+"PO-Revision-Date: 2019-03-06 14:40+1000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -29,11 +29,11 @@ msgstr ""
 "X-Poedit-SearchPath-11: dlg_login.h\n"
 "X-Poedit-SearchPath-12: gui.h\n"
 
-#: booclient.cpp:51
+#: booclient.cpp:52
 msgid "Invalid login data or the database is offline!"
 msgstr "Нет подключения к базе либо неверные учетные данные!"
 
-#: booclient.cpp:51
+#: booclient.cpp:52
 msgid "Error"
 msgstr "Ошибка"
 
@@ -85,11 +85,11 @@ msgstr "&Файл"
 msgid "Add department..."
 msgstr "Новое отделение..."
 
-#: gui.cpp:33 gui.cpp:95 gui.cpp:155
+#: gui.cpp:33 gui.cpp:95 gui.cpp:154
 msgid "Add department"
 msgstr "Добавить отделение"
 
-#: gui.cpp:42 gui.cpp:97 gui.cpp:162
+#: gui.cpp:42 gui.cpp:97 gui.cpp:161
 msgid "Remove department"
 msgstr "Удалить отделение"
 
@@ -97,7 +97,7 @@ msgstr "Удалить отделение"
 msgid "Rename department..."
 msgstr "Изменить отделение..."
 
-#: gui.cpp:51 gui.cpp:99 gui.cpp:169
+#: gui.cpp:51 gui.cpp:99 gui.cpp:168
 msgid "Rename department"
 msgstr "Переименовать отделение"
 
@@ -105,7 +105,7 @@ msgstr "Переименовать отделение"
 msgid "Add doctor..."
 msgstr "Новый врач..."
 
-#: gui.cpp:62 gui.cpp:103 gui.cpp:192
+#: gui.cpp:62 gui.cpp:103 gui.cpp:191
 msgid "Add doctor"
 msgstr "Добавить врача"
 
@@ -113,11 +113,11 @@ msgstr "Добавить врача"
 msgid "Add rule..."
 msgstr "Новое правило..."
 
-#: gui.cpp:73 gui.cpp:107 gui.cpp:230 gui.cpp:231
+#: gui.cpp:73 gui.cpp:107 gui.cpp:229 gui.cpp:230
 msgid "Add rule"
 msgstr "Добавить правило"
 
-#: gui.cpp:82 gui.cpp:109 gui.cpp:238 gui.cpp:239
+#: gui.cpp:82 gui.cpp:109 gui.cpp:237 gui.cpp:238
 msgid "Remove rule"
 msgstr "Удалить правило"
 
@@ -133,147 +133,151 @@ msgstr "Выход"
 msgid "Exit the application"
 msgstr "Выйти из приложения"
 
-#: gui.cpp:134
+#: gui.cpp:133
 msgid "Only active"
 msgstr "Только активные"
 
-#: gui.cpp:136
+#: gui.cpp:135
 msgid "Hide removed profiles and doctors"
 msgstr "Не показывать удаленные отделения и врачей"
 
-#: gui.cpp:176
+#: gui.cpp:175
 msgid "Move department up"
 msgstr "Переместить отделение вверх"
 
-#: gui.cpp:183
+#: gui.cpp:182
 msgid "Move department down"
 msgstr "Переместить отделение вниз"
 
-#: gui.cpp:249
+#: gui.cpp:248
 msgid "Move selected rule up"
 msgstr "Переместить правило вверх"
 
-#: gui.cpp:256
+#: gui.cpp:255
 msgid "Move selected rule down"
 msgstr "Переместить правило вниз"
 
-#: gui.cpp:264 gui.cpp:277 gui.cpp:373
+#: gui.cpp:263 gui.cpp:276 gui.cpp:372
 msgid "Name"
 msgstr "Имя"
 
-#: gui.cpp:265 gui.cpp:285 gui.cpp:359
+#: gui.cpp:264 gui.cpp:284 gui.cpp:358
 msgid "Title"
 msgstr "Заголовок"
 
-#: gui.cpp:266
+#: gui.cpp:265
 msgid "Period"
 msgstr "Период"
 
-#: gui.cpp:293
+#: gui.cpp:292
 msgid "From"
 msgstr "С"
 
-#: gui.cpp:299
+#: gui.cpp:298
 msgid "Till"
 msgstr "По"
 
-#: gui.cpp:305
+#: gui.cpp:304
 msgid "Parity"
 msgstr "Четность"
 
-#: gui.cpp:309 gui.cpp:320 gui.cpp:331
+#: gui.cpp:308 gui.cpp:319 gui.cpp:330
 msgid "None"
 msgstr "Нет"
 
-#: gui.cpp:309
+#: gui.cpp:308
 msgid "Odd"
 msgstr "Нечетные"
 
-#: gui.cpp:309
+#: gui.cpp:308
 msgid "Even"
 msgstr "Четные"
 
-#: gui.cpp:316
+#: gui.cpp:315
 msgid "Weekday"
 msgstr "День недели"
 
-#: gui.cpp:320
+#: gui.cpp:319
 msgid "Monday"
 msgstr "Понедельник"
 
-#: gui.cpp:320
+#: gui.cpp:319
 msgid "Tuesday"
 msgstr "Вторник"
 
-#: gui.cpp:320
+#: gui.cpp:319
 msgid "Wednesday"
 msgstr "Среда"
 
-#: gui.cpp:320
+#: gui.cpp:319
 msgid "Thursday"
 msgstr "Четверг"
 
-#: gui.cpp:320
+#: gui.cpp:319
 msgid "Friday"
 msgstr "Пятница"
 
-#: gui.cpp:320
+#: gui.cpp:319
 msgid "Saturday"
 msgstr "Суббота"
 
-#: gui.cpp:320
+#: gui.cpp:319
 msgid "Sunday"
 msgstr "Воскресенье"
 
-#: gui.cpp:327
+#: gui.cpp:326
 msgid "of week"
 msgstr "неделя"
 
-#: gui.cpp:331
+#: gui.cpp:330
 msgid "First"
 msgstr "Первая"
 
-#: gui.cpp:331
+#: gui.cpp:330
 msgid "Second"
 msgstr "Вторая"
 
-#: gui.cpp:331
+#: gui.cpp:330
 msgid "Third"
 msgstr "Третья"
 
-#: gui.cpp:331
+#: gui.cpp:330
 msgid "Fourth"
 msgstr "Четвертая"
 
-#: gui.cpp:351
+#: gui.cpp:330
+msgid "Fifth"
+msgstr "Пятая"
+
+#: gui.cpp:350
 msgid "Rules"
 msgstr "Правила"
 
-#: gui.cpp:366
+#: gui.cpp:365
 msgid "Study"
 msgstr "Кабинет"
 
-#: gui.cpp:380
+#: gui.cpp:379
 msgid "Position"
 msgstr "Должность"
 
-#: gui.cpp:387
+#: gui.cpp:386
 msgid "Institute"
 msgstr "Институт"
 
-#: gui.cpp:394
+#: gui.cpp:393
 msgid "Certificate"
 msgstr "Сертификат"
 
-#: gui.cpp:401
+#: gui.cpp:400
 msgid "Category"
 msgstr "Категория"
 
-#: gui.cpp:408
+#: gui.cpp:407
 msgid "Active"
 msgstr "Активен"
 
-#: gui.cpp:415
+#: gui.cpp:414
 msgid "Doctor"
 msgstr "Врач"
 
@@ -281,66 +285,66 @@ msgstr "Врач"
 msgid "Booserver Client"
 msgstr "Booserver: клиент"
 
-#: main.cpp:101
+#: main.cpp:98
 msgid "Add Profile"
 msgstr "Новое отделение"
 
-#: main.cpp:102
+#: main.cpp:99
 msgid "Profile title"
 msgstr "Название отделения"
 
-#: main.cpp:134
+#: main.cpp:131
 msgid "Do you really wish to remove profile "
 msgstr "Вы действительно желаете удалить отделение "
 
-#: main.cpp:135
+#: main.cpp:132
 msgid "Remove Profile"
 msgstr "Удалить отделение"
 
-#: main.cpp:138
+#: main.cpp:135
 msgid "Do you wish to restore profile "
 msgstr "Восстановить отделение "
 
-#: main.cpp:139
+#: main.cpp:136
 msgid "Restore Profile"
 msgstr "Восстановить отделение"
 
-#: main.cpp:163
+#: main.cpp:160
 msgid "New name"
 msgstr "Новое имя"
 
-#: main.cpp:164
+#: main.cpp:161
 msgid "Rename Profile"
 msgstr "Переименовать отделение"
 
-#: main.cpp:180
+#: main.cpp:177
 msgid "Doctor title"
 msgstr "Имя врача"
 
-#: main.cpp:181
+#: main.cpp:178
 msgid "Add Doctor"
 msgstr "Добавить врача"
 
-#: main.cpp:207
+#: main.cpp:204
 msgid "Rule name"
 msgstr "Имя правила"
 
-#: main.cpp:208
+#: main.cpp:205
 msgid "Add Rule"
 msgstr "Добавить правило"
 
-#: main.cpp:213
+#: main.cpp:210
 msgid "Rule's name shouldn't be empty!"
 msgstr "Имя правила не должно быть пустым!"
 
-#: main.cpp:213
+#: main.cpp:210
 msgid "Rule Name Empty"
 msgstr "Пустое имя правила"
 
-#: main.cpp:249
+#: main.cpp:246
 msgid "Do you really wish to remove rule "
 msgstr "Удалить правило "
 
-#: main.cpp:250
+#: main.cpp:247
 msgid "Remove Rule"
 msgstr "Удалить правило"
