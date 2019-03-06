@@ -14,6 +14,7 @@ TimetableScreenBuilder::TimetableScreenBuilder(const Options &options):
   study_width(options.getWidth() / 14),
   day_width((options.getWidth() - title_width - study_width) / 7),
   testing(options.isTesting()),
+  hasbgr(false),
   color_clear(options.getClearColor()),
   title_face(options.getTitleFace()),
   header_back(options.getHeaderBack()),
@@ -42,7 +43,8 @@ bool TimetableScreenBuilder::init(void) {
   if (!canvas.init()) return false;
   
   canvas.clear(color_clear);
-  if (!bg_image_file.empty()) png::drawPNG(bg_image_file, canvas);
+  
+  hasbgr = !bg_image_file.empty() && png::drawPNG(bg_image_file, canvas);
   
   background = new unsigned char [canvas.getSize()];
   memmove(background, canvas.getPixels(), canvas.getSize());
@@ -89,12 +91,14 @@ void TimetableScreenBuilder::build(const Profiles &ps, int page, int pageCount) 
   int twd = getTodaysWeekday();
 
   for (const timetable::Profile &profile : ps) {
-    image::Rect rect = { 0, y, canvas.getWidth() - 1, y + line_height * 2};
-
-    canvas.textOut(profile.getTitle(), font_title, title_face, rect, true);
-
     const std::vector<timetable::Doctor> &ds = profile.getDoctors();
     int len = ds.size();
+
+    image::Rect rect = { 0, y, canvas.getWidth() - 1, y + line_height * 2};
+    
+    if (hasbgr) canvas.fillBoxBlended(color_clear, rect, 0xbb);
+
+    canvas.textOut(profile.getTitle(), font_title, title_face, rect, true);
 
     // Make sure we'll make no overflow
     assert(y + line_height * (len + 3) < canvas.getHeight());

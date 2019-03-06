@@ -102,8 +102,7 @@ void Canvas::box(const RGB &color, const Rect &rect) {
   vertical(color, rect.x1, rect.y0, rect.y1);
 }
 
-void Canvas::fillBox(const RGB &color, const Rect &rect) {
-  Rect clip(rect);
+bool boxClipped(Rect &clip, int width, int height) {
   if (clip.x0 > clip.x1) std::swap(clip.x0, clip.x1);
   if (clip.y0 > clip.y1) std::swap(clip.y0, clip.y1);
 
@@ -114,11 +113,16 @@ void Canvas::fillBox(const RGB &color, const Rect &rect) {
   if (clip.y1 >= height) clip.y1 = height - 1;
 
   // Is the box inside the image?
-  if (clip.x0 >= width
-    || clip.x1 < 0
-    || clip.y0 >= height
-    || clip.y1 < 0)
-      return;
+  return clip.x0 < width
+    && clip.x1 >= 0
+    && clip.y0 < height
+    && clip.y1 >= 0;
+}
+
+void Canvas::fillBox(const RGB &color, const Rect &rect) {
+  Rect clip(rect);
+
+  if (!boxClipped(clip, width, height)) return;
 
   int s0 = (clip.x1 - clip.x0 + 1) * BPP;
   unsigned char* src = pixels + clip.y0 * stride + clip.x0 * BPP;
@@ -137,6 +141,27 @@ void Canvas::fillBox(const RGB &color, const Rect &rect) {
   for (int i = clip.y0 + 1; i <= clip.y1; ++i) {
     memcpy(ptr, src, s0);
     ptr += stride;
+  }
+}
+
+void Canvas::fillBoxBlended(const RGB &color, const Rect &rect, unsigned factor) {
+  Rect clip(rect);
+  if (!boxClipped(clip, width, height)) return;
+
+  unsigned char* ptr = pixels + clip.y0 * stride + clip.x0 * BPP;
+  int skip = stride - BPP * (clip.x1 - clip.x0 + 1);
+
+  for (int i = clip.y0; i < clip.y1; ++i) {
+    // First row - fill with the color
+    for (int j = clip.x0; j <= clip.x1; ++j) {
+      *ptr = blend(*ptr, color.r, factor);
+      ++ptr;
+      *ptr = blend(*ptr, color.g, factor);
+      ++ptr;
+      *ptr = blend(*ptr, color.b, factor);
+      ++ptr;
+    }
+    ptr += skip;
   }
 }
 

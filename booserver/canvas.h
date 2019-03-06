@@ -101,6 +101,14 @@ namespace image {
      * @param rect      Coordinates of the boxe's top-left and bottom-right corners
      */
     void fillBox(const RGB &color, const Rect &rect);
+    
+    /**
+     * @brief               Draw rectangle filled with the given color, blended
+     * @param color     Fill color
+     * @param rect      Box
+     * @param factor    Blending factor
+     */
+    void fillBoxBlended(const RGB &color, const Rect &rect, unsigned factor);
 
     /**
      * @brief               Print a text on the canvas
