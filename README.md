@@ -30,6 +30,8 @@ To build the Boo Server on Linux you'll need GCC, cmake and development packages
 
 * freetype;
 
+* libpng16;
+
 * mysqlclient (mariadb C connector as an alternative).
 
 Use cmake to build booserver:
@@ -51,6 +53,8 @@ For building the server on Windows better option is to use CodeLite IDE. Open th
 
 * freetype;
 
+* libpng;
+
 * MYSQL Connector C 6.1.
 
 Select build configuration Release and press F7 key to build the binary.
@@ -62,7 +66,11 @@ Select build configuration Release and press F7 key to build the binary.
 /usr/bin/mysql_secure_installation
 ```
 
-2. Log in and create database:
+2. Edit file booserver.sql near "Edit these lines to add users" comment. You have to set proper logins for the server and the clients and set their passwords.
+
+Server's account should have read-only access to the database. Mind the @'localhost' when you create account for the server: it means the server will be able to connect to the database only from the same host. Client's account (or as many of them as you wish) is needed for the users to manage the schedule. They should be able to connect to the database remotly, which is enunciated by the pattern @'%' in user creation command.
+
+3. Log in and create database:
 ```
 mysql -p
 ```
@@ -71,26 +79,19 @@ enter mysql superuser's password to log in and execute database creation script 
 source booserver.sql;
 ```
 
-3. Create users and give them desired access to the newly created database (supposing you are within mysql client):
+3. Check database availability by both client and server users:
 ```
-grant select on booserver.* to 'booserver_account'@'localhost' identified by 'server_password';
-grant all privileges on booserver.* to 'client_name'@'%' identified by 'client_password';
-```
-where client_name, client_password, booserver_account and server_password should be chosen by yourself. Server's account should have read-only access to the database. Mind the @'localhost' when you create account for the server: it means the server will be able to connect to the database only from the same host. Client's account (or as many of them as you wish) is needed for the users to manage the schedule. They should be able to connect to the database remotly, which is enunciated by the pattern @'%' in user creation command.
-
-4. Check database availability by both client and server users:
-```
-mysql -h [IP] -u client_name -p booserver
+mysql -h [IP] -u user_name -p booserver
 ```
 and
 ```
-mysql -u booserver_account -p booserver
+mysql -u booserver -p booserver
 ```
 
 
 ### Server Setup
 
-On Linux host there should be installed the following packages: freetype, mysql (or mariadb), gstreamer, gstreamer-video, gstreamer-app, gstreamer-rtsp-server, gst-plugins-good, gst-plugins-bad, gst-plugins-ugly. The last one sounds awful but contains x264video codec which can't be helped.
+On Linux host there should be installed the following packages: freetype, libpng16, mysql (or mariadb), mysqlclient, gstreamer, gstreamer-video, gstreamer-app, gstreamer-rtsp-server, gst-plugins-good, gst-plugins-bad, gst-plugins-ugly. The last one sounds awful but contains x264video codec which can't be helped.
 
 Copy configuration files (booserver/\*.conf) and fonts (\*.ttf, \*.otf) to the same location as the binary. Change mysql connection parameters and network interface in booserver.conf in accordance to your need. You can change other options also.
 

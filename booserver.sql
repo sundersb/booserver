@@ -7,6 +7,17 @@ DROP DATABASE IF EXISTS `booserver`;
 CREATE DATABASE IF NOT EXISTS `booserver` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `booserver`;
 
+--> Edit these lines to add users:
+
+-- Don't forget to change the passwords. Set user names as you wish.
+grant select on booserver.* to 'booserver'@'localhost' identified by 'server_password';
+
+-- Add as much clients as needed:
+grant all privileges on booserver.* to 'user'@'%' identified by 'client_password';
+--grant all privileges on booserver.* to 'other_user'@'%' identified by 'other_clients_password';
+
+--> End user-editable section
+
 DROP TABLE IF EXISTS `doctor`;
 CREATE TABLE IF NOT EXISTS `doctor` (
   `doctor_id` int(11) NOT NULL AUTO_INCREMENT,
