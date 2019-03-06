@@ -8,6 +8,8 @@ Software consists of two essential parts:
 
 * Client - for managing the schedules.
 
+![Example image](image.jpg "Example")
+
 ## Details
 
 Content of the schedule is stored in a MySQL (or MariaDB) database. The Boo Server acquires this information, groups it, splits by pages and forms pictures. How long each peace of information (a screenful) is being shown, color scheme, column titles of the schedule tables and other options could be set up by yourself.
