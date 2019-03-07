@@ -123,6 +123,7 @@ class frmMain : public wxFrame
 		virtual void OnDoctorAdd( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnRuleAdd( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnRuleRemove( wxCommandEvent& event ) { event.Skip(); }
+    virtual void OnAddHoliday( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnlyActiveClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ProfileSelected( wxCommandEvent& event ) { event.Skip(); }
 		virtual void DeptMove( wxCommandEvent& event ) { event.Skip(); }

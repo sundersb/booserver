@@ -13,6 +13,7 @@
 
 #include "main.h"
 #include "misc.h"
+#include "dlg_holiday.h"
 
 #include <string>
 #include <sstream>
@@ -628,4 +629,16 @@ void MainFrame::DeptMove( wxCommandEvent& event ) {
   chProfile->SetClientData(new_index, current);
   
   chProfile->SetSelection(new_index);
+}
+
+void MainFrame::OnAddHoliday (wxCommandEvent& event) {
+  saveRule();
+  DialogHoliday dlg(this);
+  if (dlg.ShowModal() == wxID_OK) {
+    if (repo->massLock(dlg.getName(), dlg.getTitle(), dlg.getFrom(), dlg.getTill())) {
+      loadRules(m_doctor);
+    } else {
+      wxMessageBox(_("Couldn't create mass day-off!"), _("Error Mass Locking"));
+    }
+  }
 }

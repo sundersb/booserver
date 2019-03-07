@@ -87,6 +87,17 @@ frmMain::frmMain (wxWindow* parent, wxWindowID id, const wxString& title, const 
 	#endif
 	mnuTools->Append( miRuleRemove );
 
+	mnuTools->AppendSeparator();
+
+	wxMenuItem* miHoliday;
+	miHoliday = new wxMenuItem( mnuTools, wxID_ANY, wxString( _("Add holiday...") ) , _("Add holiday to all doctors"), wxITEM_NORMAL );
+	#ifdef __WXMSW__
+	miHoliday->SetBitmaps( wxBitmap( wxT("icoholiday"), wxBITMAP_TYPE_PNG_RESOURCE ) );
+	#elif (defined( __WXGTK__ ) || defined( __WXOSX__ ))
+	miHoliday->SetBitmap( wxBITMAP_PNG(icoholiday));
+	#endif
+	mnuTools->Append( miHoliday );
+
 	m_menuBar->Append( mnuTools, _("Tools") );
 
 	this->SetMenuBar( m_menuBar );
@@ -444,6 +455,7 @@ frmMain::frmMain (wxWindow* parent, wxWindowID id, const wxString& title, const 
 	mnuTools->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( frmMain::OnDoctorAdd ), this, miDoctorAdd->GetId());
 	mnuTools->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( frmMain::OnRuleAdd ), this, miRuleAdd->GetId());
 	mnuTools->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( frmMain::OnRuleRemove ), this, miRuleRemove->GetId());
+  mnuTools->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( frmMain::OnAddHoliday ), this, miHoliday->GetId());
 	this->Connect( tDeptAdd->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( frmMain::OnDeptAdd ) );
 	this->Connect( tDeptRemove->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( frmMain::OnDeptRemove ) );
 	this->Connect( tDeptRename->GetId(), wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler( frmMain::OnDeptRename ) );

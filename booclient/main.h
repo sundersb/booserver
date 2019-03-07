@@ -74,6 +74,7 @@ protected:
   virtual void OnDoctorAdd( wxCommandEvent& event );
   virtual void OnRuleAdd( wxCommandEvent& event );
   virtual void OnRuleRemove( wxCommandEvent& event );
+  virtual void OnAddHoliday( wxCommandEvent& event );
   virtual void OnlyActiveClicked( wxCommandEvent& event );
   virtual void RuleMove( wxCommandEvent& event );
   virtual void OnFromChecked( wxCommandEvent& event );

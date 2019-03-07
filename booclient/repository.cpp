@@ -10,6 +10,7 @@ namespace data {
   const std::string SELECT_PROFILES_ACTIVE = "select profile_id, title, nline, active from profile where active > 0 order by nline";
   const std::string SELECT_PROFILES_ALL = "select profile_id, title, nline, active from profile order by nline";
   const std::string GET_LAST_PROFILE_NLINE = "select max(nline) from profile";
+  const std::string RESERVE_FIRST_RULE = "update rule set nline = nline + 1 where doctor_id in (select doctor_id from doctor where active > 0)";
 
 std::string getSelectDoctorsQuery(int profile, bool activeOnly) {
   std::ostringstream sql;
@@ -334,6 +335,22 @@ bool Repository::saveRules(std::vector<Rule> &value) {
       return false;
 
   return true;
+}
+
+bool Repository::massLock(const std::string &name, const std::string &title, const DateTime &dfrom, const DateTime &dtill) {
+  std::ostringstream sql;
+  
+  sql << "insert into rule (doctor_id, nline, name, title, dfrom, dtill)"
+    << " select doctor_id, 1, " << secureString(name, 50)
+    << ", " << secureString(title, 50)
+    << ", " << secureDate(dfrom)
+    << ", " << secureDate(dtill)
+    << " from doctor where active > 0";
+  
+  // Move all rules for active doctors down by one
+  //  and paste new rule for each doctor on the first place
+  return static_cast<MySqlConnection*>(impl)->exec(RESERVE_FIRST_RULE)
+    && static_cast<MySqlConnection*>(impl)->exec(sql.str());
 }
 
 };

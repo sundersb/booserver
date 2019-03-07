@@ -31,5 +31,7 @@ namespace data {
     bool saveRule(Rule *value);
     bool saveRules(std::vector<Rule> &value);
     bool deleteRule(Rule *value);
+    
+    bool massLock(const std::string &name, const std::string &title, const DateTime &dfrom, const DateTime &dtill);
   };
 };
