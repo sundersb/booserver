@@ -37,9 +37,8 @@ unsigned char *Canvas::getPixels(void) { return pixels; }
 unsigned char *Canvas::getPixels(void) const { return pixels; }
 
 void Canvas::clear(const RGB &color) {
-  if (color.r | color.g | color.b) {
+  if (color.r != color.g || color.b != color.g) {
     // Colored fill
-    
     unsigned char* ptr = pixels;
 
     // First row - fill with the color
@@ -56,17 +55,22 @@ void Canvas::clear(const RGB &color) {
       ptr += stride;
     }
   } else {
-    // Black fill
-    memset(pixels, 0, size);
+    // Grey fill
+    memset(pixels, color.r, size);
   }
+}
+
+inline void swapClip(int &i0, int &i1, int from, int till) {
+  // Make sure i0  <= i1, i0 [from..], i1 (..till)
+  if (i0 > i1) std::swap(i0, i1);
+  if (i0 < from) i0 = from;
+  if (i1 >= till) i1 = till - 1;
 }
 
 void Canvas::vertical(const RGB &color, int x, int y0, int y1) {
   if (x < 0 || x >= width) return;
 
-  if (y0 > y1) std::swap(y0, y1);
-  if (y0 < 0) y0 = 0;
-  if (y1 >= height) y1 = height - 1;
+  swapClip(y0, y1, 0, height);
 
   y1 -= y0;
   unsigned char* ptr = pixels + x * BPP + y0 * stride;
@@ -81,9 +85,7 @@ void Canvas::vertical(const RGB &color, int x, int y0, int y1) {
 void Canvas::horizontal(const RGB &color, int y, int x0, int x1) {
   if (y < 0 || y >= height) return;
 
-  if (x0 > x1) std::swap(x0, x1);
-  if (x0 < 0) x0 = 0;
-  if (x1 >= width) x1 = width - 1;
+  swapClip(x0, x1, 0, width);
 
   unsigned char* ptr = pixels + x0 * BPP + y * stride;
   x1 -= x0;
@@ -103,14 +105,9 @@ void Canvas::box(const RGB &color, const Rect &rect) {
 }
 
 bool boxClipped(Rect &clip, int width, int height) {
-  if (clip.x0 > clip.x1) std::swap(clip.x0, clip.x1);
-  if (clip.y0 > clip.y1) std::swap(clip.y0, clip.y1);
-
   // Clipping
-  if (clip.x0 < 0) clip.x0 = 0;
-  if (clip.x1 >= width) clip.x1 = width - 1;
-  if (clip.y0 < 0) clip.y0 = 0;
-  if (clip.y1 >= height) clip.y1 = height - 1;
+  swapClip(clip.x0, clip.x1, 0, width);
+  swapClip(clip.y0, clip.y1, 0, height);
 
   // Is the box inside the image?
   return clip.x0 < width
