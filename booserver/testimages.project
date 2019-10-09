@@ -3,6 +3,8 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="batch_config.h"/>
+    <File Name="batch_config.cpp"/>
     <File Name="date.h"/>
     <File Name="date.cpp"/>
     <File Name="options.h"/>
@@ -33,6 +35,8 @@
     <File Name="timetable_screen_builder.h"/>
     <File Name="testimages.cpp"/>
   </VirtualDirectory>
+  <Dependencies Name="Debug"/>
+  <Dependencies Name="Release"/>
   <Settings Type="Executable">
     <GlobalSettings>
       <Compiler Options="-std=c++11" C_Options="" Assembler="">
@@ -57,7 +61,7 @@
       </Compiler>
       <Linker Options="" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="$(WorkspacePath)/bin/$(ProjectName)" IntermediateDirectory="./Debug" Command="$(WorkspacePath)/bin/$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(WorkspacePath)/bin" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="$(WorkspacePath)/bin/$(ProjectName)" IntermediateDirectory="./Debug" Command="$(WorkspacePath)/bin/$(ProjectName)" CommandArguments="batch" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(WorkspacePath)/bin" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
@@ -131,6 +135,4 @@
       </Completion>
     </Configuration>
   </Settings>
-  <Dependencies Name="Debug"/>
-  <Dependencies Name="Release"/>
 </CodeLite_Project>

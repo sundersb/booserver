@@ -28,7 +28,7 @@ TimetableScreenBuilder::TimetableScreenBuilder(const Options &options):
   title_study(options.getTitleStudy()),
   title_no_time(options.getTitleNoTime()),
   title_testing(options.getTitleTesting()),
-  bg_image_file(options.getBacgroundImageFile())
+  bg_image_file(options.getBackgroundImageFile())
 {
   weekdays[0] = options.getTitleMonday();
   weekdays[1] = options.getTitileTuesday();
@@ -77,6 +77,7 @@ int getTodaysWeekday(void) {
 void TimetableScreenBuilder::build(const Profiles &ps, int page, int pageCount) {
   int y = ps.size() * 3 + 1;
 
+  //y = std::accumulate(ps.begin(), ps.end(), y, [](auto const &p) { return p.getDoctors().size(); } );
   for (const timetable::Profile &profile : ps)
     y += profile.getDoctors().size();
 

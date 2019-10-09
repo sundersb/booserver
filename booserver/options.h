@@ -78,7 +78,7 @@ public:
   const std::string& getTitleSaturday(void) const { return title_saturday; }
   const std::string& getTitleSunday(void) const { return title_sunday; }
   const std::string& getTitleTesting(void) const { return title_testing; }
-  const std::string& getBacgroundImageFile(void) const { return bg_image_file; }
+  const std::string& getBackgroundImageFile(void) const { return bg_image_file; }
   
   const image::RGB& getClearColor(void) const { return clear_color; }
   const image::RGB& getTitleFace(void) const { return title_face; }
@@ -88,4 +88,6 @@ public:
   const image::RGB& getLineEven(void) const { return line_even; }
   const image::RGB& getLineFace(void) const { return line_face; }
   const image::RGB& getCounterFace(void) const { return counter_face; }
+  
+  void setBackgroundImageFile(const std::string& fileName) { bg_image_file = fileName; }
 };
